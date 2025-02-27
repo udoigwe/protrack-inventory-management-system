@@ -456,6 +456,12 @@ module.exports = {
 		const userAgent = req.useragent;
 		const now = Math.floor(Date.now() / 1000);
 
+		/* const encrypted = CryptoJS.AES.encrypt(
+			password,
+			"protrackims2025"
+		).toString();
+		console.log("Encrypted Text:", encrypted); */
+
 		req.action = "LOGIN";
 		req.activity = "Logged In";
 		req.activity_details = {};

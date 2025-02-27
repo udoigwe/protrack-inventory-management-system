@@ -4,7 +4,8 @@
   "description": "A streamlined inventory management system designed to efficiently track stock levels, monitor sales, and automate restocking. It ensures real-time visibility, reducing errors and optimizing supply chain operations.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,8 @@
     "mysql": "^2.18.1",
     "node-cron": "^3.0.3",
     "request-ip": "^3.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
