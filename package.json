@@ -1,0 +1,25 @@
+{
+  "name": "protrack-ims",
+  "version": "1.0.0",
+  "description": "A streamlined inventory management system designed to efficiently track stock levels, monitor sales, and automate restocking. It ensures real-time visibility, reducing errors and optimizing supply chain operations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udoigwe/protrack-inventory-management-system.git"
+  },
+  "keywords": [
+    "Inventory",
+    "node.js",
+    "express",
+    "mysql"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/udoigwe/protrack-inventory-management-system/issues"
+  },
+  "homepage": "https://github.com/udoigwe/protrack-inventory-management-system#readme"
+}
