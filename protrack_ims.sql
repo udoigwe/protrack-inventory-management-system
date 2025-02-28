@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 08:23 PM
+-- Generation Time: Feb 28, 2025 at 08:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -38,6 +38,25 @@ CREATE TABLE `activity_log` (
   `user_agent` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`activity_id`, `user_id`, `role`, `activity`, `action`, `activity_details`, `ip_address`, `user_agent`, `created_at`) VALUES
+(457, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740689235'),
+(458, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740689475'),
+(459, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740690805'),
+(460, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740691534'),
+(461, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740695950'),
+(462, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696020'),
+(463, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696161'),
+(464, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696180'),
+(465, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696202'),
+(466, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696225'),
+(467, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696602'),
+(468, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696888'),
+(469, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696890');
 
 -- --------------------------------------------------------
 
@@ -271,7 +290,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `store_id`, `user_firstname`, `user_lastname`, `user_gender`, `user_email`, `user_phone`, `user_image_filename`, `user_role`, `plain_password`, `enc_password`, `user_created_at`, `write_rights`, `update_rights`, `delete_rights`, `login_rights`, `last_salt`, `last_salt_timestamp`, `last_login_timestamp`) VALUES
-(1, NULL, 'Uchechukwu', 'Udo', 'Male', 'udoigweuchechukwu@gmail.com', '08065198300', NULL, 'Super Admin', 'inventora2022', 'U2FsdGVkX19YeGjZstfSQRjHdCPM69B9mAgvEIHm4zQ=', '1730449999', 'Granted', 'Granted', 'Granted', 'Granted', NULL, NULL, '1732121163');
+(1, NULL, 'Uchechukwu', 'Udo', 'Male', 'superadmin@gmail.com', '08065198300', NULL, 'Super Admin', 'protrack2025', 'U2FsdGVkX1+RA3eXb3lLfTBE2I3KRL+Wh5AQG3NgyBI=', '1730449999', 'Granted', 'Granted', 'Granted', 'Granted', NULL, NULL, '1740696890');
 
 --
 -- Indexes for dumped tables
@@ -376,7 +395,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=457;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=470;
 
 --
 -- AUTO_INCREMENT for table `invoices`
