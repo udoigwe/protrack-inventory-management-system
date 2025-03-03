@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2025 at 08:09 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Mar 03, 2025 at 04:13 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -56,7 +56,10 @@ INSERT INTO `activity_log` (`activity_id`, `user_id`, `role`, `activity`, `actio
 (466, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696225'),
 (467, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696602'),
 (468, 1, 'Super Admin', 'Logged Out', 'LOG OUT', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696888'),
-(469, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696890');
+(469, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1740696890'),
+(470, 1, 'Super Admin', 'Logged In', 'LOGIN', '{}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '1741013227'),
+(471, 1, 'Super Admin', 'Created a new store', 'CREATE', '{\"store_name\":\"James Lounge\",\"store_address\":\"New York\"}', '::1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Mobile Safari/537.36 Edg/133.0.0.0', '1741014710'),
+(472, 1, 'Super Admin', 'Deleted a store', 'DELETE', '{\"store_id\":14,\"store_name\":\"James Lounge\",\"store_slug\":\"james-lounge\",\"store_address\":\"New York\",\"store_logo\":\"1741014710.png\",\"store_created_at\":\"1741014710\",\"store_status\":\"Active\"}', '::1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Mobile Safari/537.36 Edg/133.0.0.0', '1741014727');
 
 -- --------------------------------------------------------
 
@@ -203,13 +206,6 @@ CREATE TABLE `stores` (
   `store_status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `stores`
---
-
-INSERT INTO `stores` (`store_id`, `store_name`, `store_slug`, `store_address`, `store_logo`, `store_created_at`, `store_status`) VALUES
-(1, 'Main Shop', 'main-shop', '#1 Agulu Street Umuahia Abia State', '1664198178.jpg', '1728950400', 'Active');
-
 -- --------------------------------------------------------
 
 --
@@ -222,14 +218,6 @@ CREATE TABLE `store_settings` (
   `vat_rate` int(11) NOT NULL,
   `discount_rate` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `store_settings`
---
-
-INSERT INTO `store_settings` (`setting_id`, `store_id`, `vat_rate`, `discount_rate`) VALUES
-(1, 1, 0, 0),
-(2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -290,7 +278,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `store_id`, `user_firstname`, `user_lastname`, `user_gender`, `user_email`, `user_phone`, `user_image_filename`, `user_role`, `plain_password`, `enc_password`, `user_created_at`, `write_rights`, `update_rights`, `delete_rights`, `login_rights`, `last_salt`, `last_salt_timestamp`, `last_login_timestamp`) VALUES
-(1, NULL, 'Uchechukwu', 'Udo', 'Male', 'superadmin@gmail.com', '08065198300', NULL, 'Super Admin', 'protrack2025', 'U2FsdGVkX1+RA3eXb3lLfTBE2I3KRL+Wh5AQG3NgyBI=', '1730449999', 'Granted', 'Granted', 'Granted', 'Granted', NULL, NULL, '1740696890');
+(1, NULL, 'Uchechukwu', 'Udo', 'Male', 'superadmin@gmail.com', '08065198300', NULL, 'Super Admin', 'protrack2025', 'U2FsdGVkX1+RA3eXb3lLfTBE2I3KRL+Wh5AQG3NgyBI=', '1730449999', 'Granted', 'Granted', 'Granted', 'Granted', NULL, NULL, '1741013227');
 
 --
 -- Indexes for dumped tables
@@ -395,7 +383,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=470;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -443,7 +431,7 @@ ALTER TABLE `purchase_order_items`
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `store_settings`
