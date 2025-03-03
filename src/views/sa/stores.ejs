@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+        <%- include('leftSideBar') %>
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Store Management</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Store Management</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <!-- Form row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <h4 class="header-title">New Store</h4>
+                                <p class="sub-header">
+                                    Please note that all fields marked with red asteriks(*) are required
+                                </p>
+
+                                <form action="#" id="form-new-store">
+                                    <div class="form-group">
+                                        <label for="store_name" class="col-form-label">Store Name <span class="red-asteriks">*</span></label>
+                                        <input type="text" class="form-control required" id="store_name" name="store_name" placeholder="Name of store">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="store_address" class="col-form-label">Store Address <span class="red-asteriks">*</span></label>
+                                        <input type="text" class="form-control required" id="store_address" name="store_address" placeholder="Address of store">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="store_logo" class="col-form-label">Store Logo <span class="red-asteriks">*</span></label>
+                                        <input type="file" class="form-control required" id="store_logo" name="store_logo" placeholder="Logo of store">
+                                    </div>
+                                    <button type="submit" class="btn btn-success ld-ext-right">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <!-- Organizations table row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Existing Stores</h4>
+                                    <p class="text-muted font-13 mb-4">
+                                        Click the edit or delete buttons attached to an organization to update OR delete a record respectively
+                                    </p>
+
+                                    <table id="stores" class="table activate-select dt-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>SNO</th>
+                                                <th>Store Name</th>
+                                                <th>Store Address</th>
+                                                <th>Created At</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                    <!-- end row -->
+
+                    <!-- edit modal -->
+                    <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"></h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <center><img width="100" height="100" class="rounded-circle" id="logo"></center>
+                                    <form action="#" id="form-update-store">
+                                        <div class="form-group">
+                                            <label for="store_name1" class="col-form-label">Store Name <span class="red-asteriks">*</span></label>
+                                            <input type="text" class="form-control required" id="store_name1" name="store_name" placeholder="Name of store">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="store_address1" class="col-form-label">Store Address <span class="red-asteriks">*</span></label>
+                                            <input type="text" class="form-control required" id="store_address1" name="store_address" placeholder="Address of store">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="store_status" class="col-form-label">Store Status <span class="red-asteriks">*</span></label>
+                                            <select id="store_status" name="store_status" class="form-control selectpicker required">
+                                                <option value="">Choose Status</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="store_logo1" class="col-form-label">Store Logo </label>
+                                            <input type="file" class="form-control" id="store_logo1" name="store_logo" placeholder="Logo of store">
+                                        </div>
+                                        <input type="hidden" id="store_id" name="store_id" class="required">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <%- include('../partials/footer') %>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+    <!-- page script -->
+    <script src="/assets/js/pages/sa/stores.js"></script>
+
+</body>
+
+</html>
