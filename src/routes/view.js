@@ -7,6 +7,8 @@ router.get("/login", viewController.login);
 
 /* SUPER ADMIN */
 router.get("/sa/dashboard", viewController.saHome);
+router.get("/sa/stores", viewController.saStores);
+router.get("/sa/users", viewController.saUsers);
 
 /* ADMIN */
 
