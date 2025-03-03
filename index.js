@@ -29,16 +29,20 @@ app.set("views", "./src/views");
 
 //importing all required routes
 const authRoutes = require("./src/routes/auth");
+const storeRoutes = require("./src/routes/store");
+const userRoutes = require("./src/routes/user");
 
 //importing all view routes
 const viewRoutes = require("./src/routes/view");
 
 //using imported routes
 app.use(process.env.ROUTE_PREFIX, authRoutes);
+app.use(process.env.ROUTE_PREFIX, storeRoutes);
+app.use(process.env.ROUTE_PREFIX, userRoutes);
 
 //using imported view routes
 app.use(viewRoutes);
 
 app.listen(port, () => {
-	console.log(`App successfully running on port ${port}`);
+  console.log(`App successfully running on port ${port}`);
 });
