@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+        <%- include('leftSideBar') %>
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a></li>
+                                        <li class="breadcrumb-item active">Manage Users</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Manage Users</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <!-- Form row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <h4 class="header-title">New User</h4>
+                                <p class="sub-header">
+                                    Please note that all fields marked with red asteriks(*) are required
+                                </p>
+
+                                <form action="#" id="form-new-user">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="user_firstname" class="col-form-label">First Name <span class="red-asteriks">*</span></label>
+                                            <input type="text" class="form-control required" id="user_firstname" name="user_firstname" placeholder="First Name">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="user_lastname" class="col-form-label">Last Name <span class="red-asteriks">*</span></label>
+                                            <input type="text" class="form-control required" id="user_lastname" name="user_lastname" placeholder="Last Name">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="user_gender" class="col-form-label">User Gender <span class="red-asteriks">*</span></label>
+                                            <select id="user_gender" name="user_gender" class="form-control selectpicker required user_gender">
+                                                <option value="">Choose User Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="user_email" class="col-form-label">Email <span class="red-asteriks">*</span></label>
+                                            <input type="email" class="form-control required" id="user_email" name="user_email" placeholder="Valid email address">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="user_phone" class="col-form-label">Phone <span class="red-asteriks">*</span></label>
+                                            <input type="text" class="form-control required" id="user_phone" name="user_phone" placeholder="Country codes apply">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="store_id" class="col-form-label">Store</label>
+                                            <select id="store_id" name="store_id" class="form-control selectpicker required">
+                                                <option value="">Choose Store</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="user_role" class="col-form-label">User Role <span class="red-asteriks">*</span></label>
+                                            <select id="user_role" name="user_role" class="form-control selectpicker required user_role">
+                                                <option value="">Choose User Role</option>
+                                                <option value="Super Admin">Super Admin</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Cashier">Cashier</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="password" class="col-form-label">Password <span class="red-asteriks">*</span></label>
+                                            <input type="password" class="form-control required" id="password" name="password" placeholder="Password">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="re-password" class="col-form-label">Confirm Password <span class="red-asteriks">*</span></label>
+                                            <input type="password" class="form-control required" id="re-password" name="re-password" placeholder="Must match password">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success ld-ext-right">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <!-- Form row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <h4 class="header-title">User Filter</h4>
+                                <p class="sub-header">
+                                    Please note that all fields are required
+                                </p>
+
+                                <form action="#" id="filter">
+                                    <div class="form-group">
+                                        <label for="user_role2">User Role</label>
+                                        <select class="selectpicker form-control user_role" id="user_role2" name="user_role">
+                                            <option value="">All</option>
+                                            <option value="Super Admin">Super Admin</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Cashier">Cashier</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="store_id1">Store</label>
+                                        <select class="selectpicker form-control" id="store_id1" name="store_id">
+                                            <option value="">All</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Load Users</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <!-- Users table row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Existing Users</h4>
+                                    <p class="text-muted font-13 mb-4">
+                                        Click the edit or delete buttons attached to a user to update OR delete a user record respectively
+                                    </p>
+
+                                    <table id="users" class="table activate-select dt-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>SNO</th>
+                                                <th>Full Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Store</th>
+                                                <th>Role</th>
+                                                <th>Created At</th>
+                                                <th>Write Rights</th>
+                                                <th>Update Rights</th>
+                                                <th>Delete Rights</th>
+                                                <th>Login Rights</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                    <!-- end row -->
+
+                    <!-- edit modal -->
+                    <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"></h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <form action="#" id="form-update-user">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="user_firstname1" class="col-form-label">First Name <span class="red-asteriks">*</span></label>
+                                                <input type="text" class="form-control required" id="user_firstname1" name="user_firstname" placeholder="First Name">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="user_lastname" class="col-form-label">Last Name <span class="red-asteriks">*</span></label>
+                                                <input type="text" class="form-control required" id="user_lastname1" name="user_lastname" placeholder="Last Name">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="user_gender1" class="col-form-label">User Gender <span class="red-asteriks">*</span></label>
+                                                <select id="user_gender1" name="user_gender" class="form-control selectpicker required user_gender">
+                                                    <option value="">Choose User Gender</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="user_email1" class="col-form-label">Email <span class="red-asteriks">*</span></label>
+                                                <input type="email" class="form-control required" id="user_email1" name="user_email" placeholder="Valid email address">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="user_phone1" class="col-form-label">Phone <span class="red-asteriks">*</span></label>
+                                                <input type="text" class="form-control required" id="user_phone1" name="user_phone" placeholder="Country codes apply">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="store_id2" class="col-form-label">Store</label>
+                                                <select id="store_id2" name="store_id" class="form-control selectpicker">
+                                                    <option value="">Choose Store</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="user_role1" class="col-form-label">User Role <span class="red-asteriks">*</span></label>
+                                                <select id="user_role1" name="user_role" class="form-control selectpicker required user_role">
+                                                    <option value="">Choose User Role</option>
+                                                    <option value="Super Admin">Super Admin</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Cashier">Cashier</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <label for="write_rights" class="col-form-label">Write Rights <span class="red-asteriks">*</span></label>
+                                                <select id="write_rights" name="write_rights" class="form-control required selectpicker">
+                                                    <option value="">Change Write Rights</option>
+                                                    <option value="Granted">Granted</option>
+                                                    <option value="Denied">Denied</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="update_rights" class="col-form-label">Update Rights <span class="red-asteriks">*</span></label>
+                                                <select id="update_rights" name="update_rights" class="form-control required selectpicker">
+                                                    <option value="">Change Update Rights</option>
+                                                    <option value="Granted">Granted</option>
+                                                    <option value="Denied">Denied</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="delete_rights" class="col-form-label">Delete Rights <span class="red-asteriks">*</span></label>
+                                                <select id="delete_rights" name="delete_rights" class="form-control required selectpicker">
+                                                    <option value="">Change Delete Rights</option>
+                                                    <option value="Granted">Granted</option>
+                                                    <option value="Denied">Denied</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="login_rights" class="col-form-label">Login Rights <span class="red-asteriks">*</span></label>
+                                                <select id="login_rights" name="login_rights" class="form-control required selectpicker">
+                                                    <option value="">Change Login Rights</option>
+                                                    <option value="Granted">Granted</option>
+                                                    <option value="Denied">Denied</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="user_id" name="user_id" class="required">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <%- include('../partials/footer') %>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+    <!-- page script -->
+    <script src="/assets/js/pages/admin/users.js"></script>
+
+</body>
+
+</html>
