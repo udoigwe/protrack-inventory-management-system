@@ -211,7 +211,6 @@ $(function () {
 			success: function (response) {
 				var users = response.result.users;
 				var html = "";
-				var editModal = $("#editModal");
 
 				for (var i = 0; i < users.length; i++) {
 					html += `
@@ -220,7 +219,7 @@ $(function () {
 				}
 
 				$("#user_id").append(html);
-				$("body").find(".selectpicker").selectpicker("refresh");
+				$("#user_id").find(".selectpicker").selectpicker("refresh");
 			},
 			error: function (req, status, err) {
 				showSimpleMessage(
@@ -254,7 +253,9 @@ $(function () {
 						}
 
 						$("#store_id").append(html);
-						$(".selectpicker").selectpicker("refresh");
+						$("#store_id")
+							.find(".selectpicker")
+							.selectpicker("refresh");
 						unblockUI();
 					} else {
 						unblockUI();

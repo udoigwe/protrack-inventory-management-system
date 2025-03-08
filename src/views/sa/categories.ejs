@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                                                </li>
+                                                <li class="breadcrumb-item">Product Management</li>
+                                                <li class="breadcrumb-item active">Product Categories</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Product Category</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">New Product Category</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields marked with red asteriks(*) are required
+                                        </p>
+
+                                        <form action="#" id="form-new-category">
+                                            <div class="form-group">
+                                                <label for="product_category_name" class="col-form-label">Category Name
+                                                    <span class="red-asteriks">*</span></label>
+                                                <input type="text" class="form-control required"
+                                                    id="product_category_name" name="product_category_name"
+                                                    placeholder="Name of category">
+                                            </div>
+                                            <button type="submit" class="btn btn-success ld-ext-right">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Organizations table row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="header-title">Existing Categories</h4>
+                                            <p class="text-muted font-13 mb-4">
+                                                Click the edit or delete buttons attached to a category to update OR
+                                                delete a record respectively
+                                            </p>
+
+                                            <table id="categories" class="table activate-select dt-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SNO</th>
+                                                        <th>Category</th>
+                                                        <th>Category Slug</th>
+                                                        <th>Created At</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                </div><!-- end col-->
+                            </div>
+                            <!-- end row -->
+
+                            <!-- edit modal -->
+                            <div id="editModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <form action="#" id="form-update-category">
+                                                <div class="form-group">
+                                                    <label for="product_category_name1" class="col-form-label">Category
+                                                        Name <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required"
+                                                        id="product_category_name1" name="product_category_name"
+                                                        placeholder="Name of category">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product_category_status" class="col-form-label">Product
+                                                        Category Status <span class="red-asteriks">*</span></label>
+                                                    <select id="product_category_status" name="product_category_status"
+                                                        class="form-control selectpicker required">
+                                                        <option value="">Choose Status</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="Inactive">Inactive</option>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" id="product_category_id" name="product_category_id"
+                                                    class="required">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light">Save
+                                                changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+
+                    <%- include('../partials/footer') %>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+        <!-- page script -->
+        <script src="/assets/js/pages/sa/categories.js"></script>
+
+</body>
+
+</html>

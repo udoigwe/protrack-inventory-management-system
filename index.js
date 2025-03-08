@@ -31,18 +31,28 @@ app.set("views", "./src/views");
 const authRoutes = require("./src/routes/auth");
 const storeRoutes = require("./src/routes/store");
 const userRoutes = require("./src/routes/user");
+const productRoutes = require("./src/routes/product");
 
 //importing all view routes
 const viewRoutes = require("./src/routes/view");
+const {
+	scheduleExpiredProductStockUpdate,
+	scheduleExpiringProductPriceUpdate,
+} = require("./src/services/expiration.service");
 
 //using imported routes
 app.use(process.env.ROUTE_PREFIX, authRoutes);
 app.use(process.env.ROUTE_PREFIX, storeRoutes);
 app.use(process.env.ROUTE_PREFIX, userRoutes);
+app.use(process.env.ROUTE_PREFIX, productRoutes);
 
 //using imported view routes
 app.use(viewRoutes);
 
+//run cron jobs
+scheduleExpiredProductStockUpdate();
+scheduleExpiringProductPriceUpdate();
+
 app.listen(port, () => {
-  console.log(`App successfully running on port ${port}`);
+	console.log(`App successfully running on port ${port}`);
 });

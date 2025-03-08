@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                                                </li>
+                                                <li class="breadcrumb-item">Product Management</li>
+                                                <li class="breadcrumb-item active">Products</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Products</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">New Product</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields marked with red asteriks(*) are required
+                                        </p>
+
+                                        <form action="#" id="form-new-product">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="product_category_id" class="col-form-label">Product
+                                                        Category <span class="red-asteriks">*</span></label>
+                                                    <select id="product_category_id" name="product_category_id"
+                                                        class="form-control selectpicker required product_category_id"
+                                                        data-live-search="true">
+                                                        <option value="">Choose a category</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="product_brand_id" class="col-form-label">Product Brand
+                                                        <span class="red-asteriks">*</span></label>
+                                                    <select id="product_brand_id" name="product_brand_id"
+                                                        class="form-control selectpicker required product_brand_id"
+                                                        data-live-search="true">
+                                                        <option value="">Choose a brand</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label for="product_name" class="col-form-label">Product Name <span
+                                                            class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required" id="product_name"
+                                                        name="product_name" placeholder="Name of product">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="product_cost_price" class="col-form-label">Product Cost
+                                                        Price <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required integersonly"
+                                                        id="product_cost_price" name="product_cost_price"
+                                                        placeholder="Numbers only">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="product_price" class="col-form-label">Product Price
+                                                        <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required integersonly"
+                                                        id="product_price" name="product_price"
+                                                        placeholder="Numbers only">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="product_stock" class="col-form-label">Product Quantity
+                                                        in Stock <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required integersonly"
+                                                        id="product_stock" name="product_stock"
+                                                        placeholder="Numbers only">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="product_reorder_level" class="col-form-label">Product
+                                                        Reorder Level <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required integersonly"
+                                                        id="product_reorder_level" name="product_reorder_level"
+                                                        placeholder="Reorder Level">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="product_measuring_units" class="col-form-label">Product
+                                                        Measuring Unit <span class="red-asteriks">*</span></label>
+                                                    <input type="text" class="form-control required integersonly"
+                                                        id="product_measuring_units" name="product_measuring_units"
+                                                        placeholder="Unit of measurement for product">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_expiry_date" class="col-form-label">Product
+                                                        Expiry Date</label>
+                                                    <input type="text" class="form-control datepicker"
+                                                        id="product_expiry_date" name="product_expiry_date"
+                                                        placeholder="Expiry Date">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_expiry_time" class="col-form-label">Product
+                                                        Expiry Time</label>
+                                                    <input type="text" class="form-control timepicker"
+                                                        id="product_expiry_time" name="product_expiry_time"
+                                                        placeholder="Expiry Time">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_expiry_discount_rate"
+                                                        class="col-form-label">Product Expiry Discount Rate</label>
+                                                    <input type="text" class="form-control integersonly"
+                                                        id="product_expiry_discount_rate"
+                                                        name="product_expiry_discount_rate" placeholder="Digits only">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success ld-ext-right">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">Product Filter</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields are required
+                                        </p>
+
+                                        <form action="#" id="filter">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_category_id2">Product Category</label>
+                                                    <select class="selectpicker form-control" id="product_category_id2"
+                                                        name="product_category_id">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_brand_id2">Product Brand</label>
+                                                    <select class="selectpicker form-control product_brand_id"
+                                                        id="product_brand_id2" name="product_brand_id">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_status1">Product Status</label>
+                                                    <select class="selectpicker form-control" id="product_status1"
+                                                        name="product_status">
+                                                        <option value="">All</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="Inactive">Inactive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Load Products</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Organizations table row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="header-title">Existing Products</h4>
+                                            <p class="text-muted font-13 mb-4">
+                                                Click the edit or delete buttons attached to a product to update OR
+                                                delete a record respectively
+                                            </p>
+
+                                            <table id="products" class="table activate-select dt-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SNO</th>
+                                                        <th>Product</th>
+                                                        <th>Category</th>
+                                                        <th>Brand</th>
+                                                        <th>Cost Price</th>
+                                                        <th>Price</th>
+                                                        <th>Qty In Stock</th>
+                                                        <th>Unit Of Measurement</th>
+                                                        <th>Reorder Level</th>
+                                                        <th>Product Sales Tax Rate (%)</th>
+                                                        <th>Product Discount Rate (%)</th>
+                                                        <th>Product Expiry Date</th>
+                                                        <th>Product Expiry Discount Rate (%)</th>
+                                                        <th>Store</th>
+                                                        <th>Created At</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                </div><!-- end col-->
+                            </div>
+                            <!-- end row -->
+
+                            <!-- edit modal -->
+                            <div id="editModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <form action="#" id="form-update-product">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_category_id1" class="col-form-label">Product
+                                                            Category <span class="red-asteriks">*</span></label>
+                                                        <select id="product_category_id1" name="product_category_id"
+                                                            class="form-control selectpicker required product_category_id"
+                                                            data-live-search="true">
+                                                            <option value="">Choose a category</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_brand_id1" class="col-form-label">Product
+                                                            Brand <span class="red-asteriks">*</span></label>
+                                                        <select id="product_brand_id1" name="product_brand_id"
+                                                            class="form-control selectpicker required product_brand_id"
+                                                            data-live-search="true">
+                                                            <option value="">Choose a brand</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_name1" class="col-form-label">Product Name
+                                                            <span class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="product_name1" name="product_name"
+                                                            placeholder="Name of product">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_cost_price1" class="col-form-label">Product
+                                                            Cost Price <span class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required integersonly"
+                                                            id="product_cost_price1" name="product_cost_price"
+                                                            placeholder="Numbers only">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_price1" class="col-form-label">Product Price
+                                                            <span class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required integersonly"
+                                                            id="product_price1" name="product_price"
+                                                            placeholder="Numbers only">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_stock1" class="col-form-label">Product
+                                                            Quantity in Stock <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required integersonly"
+                                                            id="product_stock1" name="product_stock"
+                                                            placeholder="Numbers only">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_vat_rate" class="col-form-label">Product
+                                                            Sales Tax Rate <span class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="product_vat_rate" name="product_vat_rate"
+                                                            placeholder="Product Sales Tax Rate in (%). Decimals allowed">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="product_discount_rate"
+                                                            class="col-form-label">Product Discount Rate <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="product_discount_rate" name="product_discount_rate"
+                                                            placeholder="Product Discount Rate in (%). Decimals allowed">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_reorder_level1"
+                                                            class="col-form-label">Product Reorder Level <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required integersonly"
+                                                            id="product_reorder_level1" name="product_reorder_level"
+                                                            placeholder="Reorder Level">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_measuring_units1"
+                                                            class="col-form-label">Product Measuring Unit <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required integersonly"
+                                                            id="product_measuring_units1" name="product_measuring_units"
+                                                            placeholder="Unit of measurement for product">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_status" class="col-form-label">Product
+                                                            Status <span class="red-asteriks">*</span></label>
+                                                        <select id="product_status" name="product_status"
+                                                            class="form-control selectpicker required"
+                                                            data-live-search="true">
+                                                            <option value="">Choose status</option>
+                                                            <option value="Active">Active</option>
+                                                            <option value="Inactive">Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_expiry_date1" class="col-form-label">Product
+                                                            Expiry Date</label>
+                                                        <input type="text" class="form-control datepicker"
+                                                            id="product_expiry_date1" name="product_expiry_date"
+                                                            placeholder="Expiry Date">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_expiry_time1" class="col-form-label">Product
+                                                            Expiry Time</label>
+                                                        <input type="text" class="form-control timepicker"
+                                                            id="product_expiry_time1" name="product_expiry_time"
+                                                            placeholder="Expiry Time">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="product_expiry_discount_rate1"
+                                                            class="col-form-label">Product Expiry Discount Rate</label>
+                                                        <input type="text" class="form-control integersonly"
+                                                            id="product_expiry_discount_rate1"
+                                                            name="product_expiry_discount_rate"
+                                                            placeholder="Digits only">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="product_id" name="product_id" class="required">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light">Save
+                                                changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- qr modal -->
+                            <div id="qrModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4" id="qrCode"
+                                            style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+
+                    <%- include('../partials/footer') %>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+        <!-- page script -->
+        <script src="/assets/js/pages/admin/products.js"></script>
+
+</body>
+
+</html>
