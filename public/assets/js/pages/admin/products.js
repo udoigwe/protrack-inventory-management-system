@@ -103,7 +103,7 @@ $(function () {
 								moment(product.product_expiry_date).isValid()
 									? moment(
 											product.product_expiry_date
-									  ).format("HH:MM")
+									  ).format("h:mm")
 									: ""
 							);
 						editModal

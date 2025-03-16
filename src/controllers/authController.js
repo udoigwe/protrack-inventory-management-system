@@ -1453,6 +1453,31 @@ module.exports = {
 					[myData.user_store_id, myData.user_id]
 				);
 
+				//get discounted products approaching expiry
+				let rows11 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`SELECT 
+						a.*,
+						b.store_name, 
+						c.product_category_name, 
+						d.product_brand_name,
+						CASE 
+							WHEN product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE 
+							THEN product_price - (product_price * product_expiry_discount_rate / 100)
+							ELSE product_price
+						END AS current_price
+					FROM products a
+					LEFT JOIN stores b ON a.store_id = b.store_id
+					LEFT JOIN product_categories c ON a.product_category_id = c.product_category_id
+					LEFT JOIN product_brands d ON a.product_brand_id = d.product_brand_id
+					WHERE a.store_id = ?
+					AND a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE  -- Filter applied here
+					ORDER BY a.product_expiry_date DESC
+					`,
+					[myData.user_store_id]
+				);
+
 				//generate my monthly sales chart
 				for (var i = 0; i < months.length; i++) {
 					const month = months[i];
@@ -1500,6 +1525,7 @@ module.exports = {
 					recent_sales: rows8,
 					chart_data: chartData,
 					expired_products: rows10,
+					discounted_products: rows11,
 				};
 
 				res.json({
@@ -1693,6 +1719,29 @@ module.exports = {
 					`SELECT a.*, b.store_name, CONCAT(c.user_firstname,' ',c.user_lastname) AS cashier FROM invoices a LEFT JOIN stores b ON a.store_id = b.store_id LEFT JOIN users c ON a.cashier_id = c.user_id ORDER BY a.invoice_id DESC LIMIT 10`
 				);
 
+				//get discounted products approaching expiry
+				let rows27 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`SELECT 
+						a.*,
+						b.store_name, 
+						c.product_category_name, 
+						d.product_brand_name,
+						CASE 
+							WHEN a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE 
+							THEN a.product_price - (a.product_price * a.product_expiry_discount_rate / 100)
+							ELSE a.product_price
+						END AS current_price
+					FROM products a
+					LEFT JOIN stores b ON a.store_id = b.store_id
+					LEFT JOIN product_categories c ON a.product_category_id = c.product_category_id
+					LEFT JOIN product_brands d ON a.product_brand_id = d.product_brand_id
+					WHERE a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE  -- Filter applied here
+					ORDER BY a.product_expiry_date DESC;
+					`
+				);
+
 				//generate monthly revenue chart
 				for (var i = 0; i < months.length; i++) {
 					const month = months[i];
@@ -1803,6 +1852,7 @@ module.exports = {
 					recent_sales: rows25,
 					chart_data: chartData,
 					expired_products: rows26,
+					discounted_products: rows27,
 				};
 
 				res.json({
@@ -1981,6 +2031,31 @@ module.exports = {
 					[myData.user_store_id]
 				);
 
+				//get discounted products approaching expiry
+				let rows24 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`SELECT 
+						a.*,
+						b.store_name, 
+						c.product_category_name, 
+						d.product_brand_name,
+						CASE 
+							WHEN product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE 
+							THEN product_price - (product_price * product_expiry_discount_rate / 100)
+							ELSE product_price
+						END AS current_price
+					FROM products a
+					LEFT JOIN stores b ON a.store_id = b.store_id
+					LEFT JOIN product_categories c ON a.product_category_id = c.product_category_id
+					LEFT JOIN product_brands d ON a.product_brand_id = d.product_brand_id
+					WHERE a.store_id = ?
+					AND a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE  -- Filter applied here
+					ORDER BY a.product_expiry_date DESC
+					`,
+					[myData.user_store_id]
+				);
+
 				//generate monthly revenue chart
 				for (var i = 0; i < months.length; i++) {
 					const month = months[i];
@@ -2080,6 +2155,7 @@ module.exports = {
 					recent_sales: rows20,
 					chart_data: chartData,
 					expired_products: rows21,
+					discounted_products: rows24,
 				};
 
 				res.json({

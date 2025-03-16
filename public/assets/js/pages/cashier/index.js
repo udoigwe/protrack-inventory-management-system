@@ -41,6 +41,7 @@ $(function () {
 					loadReorderLevelProducts(dashboard.reorder_level_products);
 					loadExpiredProducts(dashboard.expired_products);
 					loadRecentSales(dashboard.recent_sales);
+					loadDiscountedProducts(dashboard.discounted_products);
 					$("#sales-count")
 						.find(".counter")
 						.text(formatNumber(dashboard.sales_count));

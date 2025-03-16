@@ -34,6 +34,7 @@ $(function () {
 					loadActivities(dashboard.activities);
 					loadReorderLevelProducts(dashboard.reorder_level_products);
 					loadRecentSales(dashboard.recent_sales);
+					loadDiscountedProducts(dashboard.discounted_products);
 					$("#sales-count")
 						.find(".counter")
 						.text(formatNumber(dashboard.sales_count));
@@ -206,6 +207,60 @@ $(function () {
 			],
 			columnDefs: [
 				{ orderable: false, targets: [1, 2, 3, 4, 5, 6, 7, 8] },
+			],
+		});
+	}
+
+	function loadDiscountedProducts(products) {
+		var formHTML = "";
+
+		if ($.fn.dataTable.isDataTable("#discounted-products")) {
+			$("#discounted-products").DataTable().destroy();
+		}
+
+		$("#discounted-products").DataTable({
+			dom: `<"row"<"col-md-12"<"row"<"col-md-4"l><"col-md-4"B><"col-md-4"f>>><"col-md-12"rt><"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>>>`,
+			buttons: {
+				buttons: [
+					{ extend: "copy", className: "btn" },
+					{ extend: "csv", className: "btn" },
+					{ extend: "excel", className: "btn" },
+					{ extend: "print", className: "btn" },
+				],
+			},
+			autoWidth: false,
+			paging: false,
+			searching: false,
+			data: products,
+			columns: [
+				{
+					data: "product_id",
+					render: function (data, type, row, meta) {
+						return meta.row + meta.settings._iDisplayStart + 1;
+					},
+				},
+				{ data: "product_name" },
+				{ data: "product_brand_name" },
+				{ data: "product_category_name" },
+				{ data: "store_name" },
+				{ data: "product_stock" },
+				{ data: "product_reorder_level" },
+				{ data: "product_measuring_units" },
+				{ data: "product_price" },
+				{ data: "current_price" },
+				{ data: "product_expiry_discount_rate" },
+				{
+					data: "product_expiration_date",
+					render: function (data, type, row, meta) {
+						return moment(data).format("MMMM Do YYYY, h:mm:ss a");
+					},
+				},
+			],
+			columnDefs: [
+				{
+					orderable: false,
+					targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				},
 			],
 		});
 	}

@@ -9,69 +9,69 @@ module.exports = {
 	/* SUPER ADMIN */
 	saHome: async (req, res) => {
 		res.render("sa/dashboard", {
-			title: "iStock - Dashboard",
+			title: "Protrack - Dashboard",
 		});
 	},
 	saBrands: async (req, res) => {
 		res.render("sa/brands", {
-			title: "iStock - Brands",
+			title: "Protrack - Brands",
 		});
 	},
 	saCategories: async (req, res) => {
 		res.render("sa/categories", {
-			title: "iStock - Categories",
+			title: "Protrack - Categories",
 		});
 	},
 	saStores: async (req, res) => {
 		res.render("sa/stores", {
-			title: "iStock - Stores",
+			title: "Protrack - Stores",
 		});
 	},
 	saUsers: async (req, res) => {
 		res.render("sa/users", {
-			title: "iStock - Users",
+			title: "Protrack - Users",
 		});
 	},
 	saActivityLog: async (req, res) => {
 		res.render("sa/activity-log", {
-			title: "iStock - Activity Log",
+			title: "Protrack - Activity Log",
 		});
 	},
 	saProducts: async (req, res) => {
 		res.render("sa/products", {
-			title: "iStock - Products",
+			title: "Protrack - Products",
 		});
 	},
 	saAccount: async (req, res) => {
 		res.render("sa/account", {
-			title: "iStock - My Account",
+			title: "Protrack - My Account",
 		});
 	},
 
 	/* ADMIN */
 	adminHome: async (req, res) => {
 		res.render("admin/dashboard", {
-			title: "iStock - Admin Dashboard",
+			title: "Protrack - Admin Dashboard",
 		});
 	},
 	adminUsers: async (req, res) => {
 		res.render("admin/users", {
-			title: "iStock - Users",
+			title: "Protrack - Users",
 		});
 	},
 	adminActivityLog: async (req, res) => {
 		res.render("admin/activity-log", {
-			title: "iStock - Activity Log",
+			title: "Protrack - Activity Log",
 		});
 	},
 	adminProducts: async (req, res) => {
 		res.render("admin/products", {
-			title: "iStock - Products",
+			title: "Protrack - Products",
 		});
 	},
 	adminAccount: async (req, res) => {
 		res.render("admin/account", {
-			title: "iStock - My Account",
+			title: "Protrack - My Account",
 		});
 	},
 
