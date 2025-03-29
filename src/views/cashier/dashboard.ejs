@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Protrack</a>
+                                                </li>
+                                                <li class="breadcrumb-item active">Dashboard</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Welcome to Protrack!</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <!-- Portlet card -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-widgets">
+                                                <a href="javascript: void(0);" data-toggle="reload" id="refresh"><i
+                                                        class="mdi mdi-refresh"></i></a>
+                                                <a data-toggle="collapse" href="#cardCollpase6" role="button"
+                                                    aria-expanded="false" aria-controls="cardCollpase6"><i
+                                                        class="mdi mdi-minus"></i></a>
+                                                <a href="javascript: void(0);" data-toggle="remove"><i
+                                                        class="mdi mdi-close"></i></a>
+                                            </div>
+                                            <h4 class="header-title mb-0">Monthly Revenue Chart</h4>
+
+                                            <div id="cardCollpase6" class="collapse pt-3 show" dir="ltr">
+                                                <div id="monthly-sales" class="apex-charts"></div>
+                                            </div> <!-- collapsed end -->
+                                        </div> <!-- end card-body -->
+                                    </div> <!-- end card-->
+                                </div> <!-- end col-->
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-xl-4 col-md-6" id="sales-count">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-success float-left">
+                                            <i class="mdi mdi-cart font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Your Sales Count</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6" id="sales-count-this-month">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-purple float-left">
+                                            <i class="mdi mdi-cart font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Your Sales Count, This Month</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6" id="sales-count-today">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-pink float-left">
+                                            <i class="mdi mdi-cart font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Your Sales Count, today</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-xl-4 col-md-6" id="total-amount-sold">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-danger float-left">
+                                            <i class="mdi mdi-currency-usd font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Total Amount You Have Sold</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6" id="total-amount-sold-this-month">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-info float-left">
+                                            <i class="mdi mdi-currency-usd font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Total Amount You Have Sold This Month</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6" id="total-amount-sold-today">
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="avatar-lg rounded-circle bg-icon-warning float-left">
+                                            <i class="mdi mdi-currency-usd font-24 avatar-title text-white"></i>
+                                        </div>
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span class="counter"></span></h3>
+                                            <p class="text-muted mb-0">Total Amount You Have Sold Today</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row">
+
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title mb-3">Recent Reorder Level Products</h4>
+
+                                        <table class="table activate-select dt-responsive" id="reorder-level-products">
+
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>SNO</th>
+                                                    <th>Product</th>
+                                                    <th>Brand</th>
+                                                    <th>Category</th>
+                                                    <th>Current Qty</th>
+                                                    <th>Reorder Level</th>
+                                                    <th>Measuring Unit</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div> <!-- end card-box-->
+                                </div> <!-- end col -->
+
+                                <!-- INBOX -->
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title mb-3">Recent Activities</h4>
+
+                                        <div class="inbox-widget slimscroll timeline-line" style="height: 340px;"></div>
+                                    </div>
+
+                                </div> <!-- end col -->
+
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row">
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title mb-3">Expired Products</h4>
+
+                                        <table class="table activate-select dt-responsive" id="expired-products">
+
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>SNO</th>
+                                                    <th>Product</th>
+                                                    <th>Brand</th>
+                                                    <th>Category</th>
+                                                    <th>Current Qty</th>
+                                                    <th>Reorder Level</th>
+                                                    <th>Measuring Unit</th>
+                                                    <th>Price</th>
+                                                    <th>Expiration Date / Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div> <!-- end card-box-->
+                                </div> <!-- end col -->
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title mb-3">Your Recent Sales</h4>
+
+                                        <table class="table activate-select dt-responsive" id="recent-sales">
+
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>SNO</th>
+                                                    <th>Store</th>
+                                                    <th>Cashier</th>
+                                                    <th>Gross Total</th>
+                                                    <th>VAT</th>
+                                                    <th>Discount</th>
+                                                    <th>Net Total</th>
+                                                    <th>Date / Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div> <!-- end card-box-->
+                                </div> <!-- end col -->
+
+                            </div> <!-- container -->
+
+                        </div> <!-- content -->
+
+                        <!-- edit modal -->
+                        <div id="productModal" class="modal fade" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Return Product</h4>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <form action="#" id="form-return-product-stock">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="product_id" class="col-form-label">Product <span
+                                                            class="red-asteriks">*</span></label>
+                                                    <select id="product_id" name="product_id"
+                                                        class="form-control selectpicker required product_id"
+                                                        data-live-search="true">
+                                                        <option value="">Choose a product</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="qty" class="col-form-label">Returned Stock Qty <span
+                                                            class="red-asteriks">*</span></label>
+                                                    <input type="number" class="form-control required" id="qty"
+                                                        name="qty" placeholder="Quantity Returned">
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary waves-effect"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light">Return
+                                            Product</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.modal -->
+
+                        <%- include('../partials/footer') %>
+
+                    </div>
+
+                    <!-- ============================================================== -->
+                    <!-- End Page content -->
+                    <!-- ============================================================== -->
+
+
+                </div>
+                <!-- END wrapper -->
+
+                <!-- Right bar overlay-->
+                <div class="rightbar-overlay"></div>
+
+                <%- include('../partials/js') %>
+
+                    <!--Apex Chart-->
+                    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+                    <!-- Sparkline charts -->
+                    <script src="/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+                    <!-- page script -->
+                    <script src="/assets/js/pages/cashier/index.js"></script>
+
+</body>
+
+</html>

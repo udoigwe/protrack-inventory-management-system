@@ -32,6 +32,9 @@ const authRoutes = require("./src/routes/auth");
 const storeRoutes = require("./src/routes/store");
 const userRoutes = require("./src/routes/user");
 const productRoutes = require("./src/routes/product");
+const invoiceRoutes = require("./src/routes/invoice");
+const purchaseRoutes = require("./src/routes/purchase");
+const transactionRoutes = require("./src/routes/transaction");
 
 //importing all view routes
 const viewRoutes = require("./src/routes/view");
@@ -45,6 +48,9 @@ app.use(process.env.ROUTE_PREFIX, authRoutes);
 app.use(process.env.ROUTE_PREFIX, storeRoutes);
 app.use(process.env.ROUTE_PREFIX, userRoutes);
 app.use(process.env.ROUTE_PREFIX, productRoutes);
+app.use(process.env.ROUTE_PREFIX, invoiceRoutes);
+app.use(process.env.ROUTE_PREFIX, purchaseRoutes);
+app.use(process.env.ROUTE_PREFIX, transactionRoutes);
 
 //using imported view routes
 app.use(viewRoutes);

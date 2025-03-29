@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                                                </li>
+                                                <li class="breadcrumb-item active">Transactions</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Transactions</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">Transaction Filter</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields marked with red asteriks(*) are required
+                                        </p>
+
+                                        <form action="#" id="filter">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="user_id">Entered By</label>
+                                                    <select class="selectpicker form-control" id="user_id"
+                                                        name="user_id" data-live-search="true">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="status">Status</label>
+                                                    <select class="selectpicker form-control" id="status" name="status"
+                                                        data-live-search="true">
+                                                        <option value="">All</option>
+                                                        <option value="Completed">Completed</option>
+                                                        <option value="Uncompleted">Uncompleted</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="transaction_type">Transaction Type</label>
+                                                    <select class="selectpicker form-control" id="transaction_type"
+                                                        name="transaction_type" data-live-search="true">
+                                                        <option value="">All</option>
+                                                        <option value="Income">Income</option>
+                                                        <option value="Expenditure">Expenditure</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="transaction_mode">Transaction Mode</label>
+                                                    <select class="selectpicker form-control" id="transaction_mode"
+                                                        name="transaction_mode" data-live-search="true">
+                                                        <option value="">All</option>
+                                                        <option value="Cash Payment">Cash Payment</option>
+                                                        <option value="Card Payment">Card Payment</option>
+                                                        <option value="Bank Transfer">Bank Transfer</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="datepicker">Activity Start Time (OPTIONAL)</label>
+                                                    <input type="text" id="datepicker" name="start_time"
+                                                        class="form-control" data-provide="datepicker"
+                                                        autocomplete="off">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="datepicker">Activity End Time (OPTIONAL)</label>
+                                                    <input type="text" id="datepicker1" name="end_time"
+                                                        class="form-control" data-provide="datepicker"
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Load Transactions</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Log table row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="header-title">Transactions</h4>
+                                            <p class="text-muted font-13 mb-4">
+                                                Click the edit or delete buttons attached to a transaction to update OR
+                                                delete a record respectively
+                                            </p>
+
+                                            <table id="transactions" class="table activate-select dt-responsive"
+                                                store-id="" user-id="" status="" start-time="" end-time=""
+                                                transaction-type="" transaction-mode="">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Store</th>
+                                                        <th>Recorded By</th>
+                                                        <th>Type</th>
+                                                        <th>Mode</th>
+                                                        <th>Title</th>
+                                                        <th>Recipient</th>
+                                                        <th>Date / Time</th>
+                                                        <th>Expected Amount</th>
+                                                        <th>Transacted Amount</th>
+                                                        <th>Balance</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                </div><!-- end col-->
+                            </div>
+                            <!-- end row -->
+
+                            <!-- form development modal -->
+                            <div id="transactionModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">New Transaction</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <!-- Form row -->
+                                            <form action="#" id="form-new-transaction">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_type" class="col-form-label">Transaction
+                                                            Type <span class="red-asteriks">*</span></label>
+                                                        <select id="transaction_type" name="transaction_type"
+                                                            class="form-control selectpicker required">
+                                                            <option value="">Choose Type</option>
+                                                            <option value="Income">Income</option>
+                                                            <option value="Expenditure">Expenditure</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_mode" class="col-form-label">Transaction
+                                                            Mode <span class="red-asteriks">*</span></label>
+                                                        <select id="transaction_mode" name="transaction_mode"
+                                                            class="form-control selectpicker required">
+                                                            <option value="">Choose Mode</option>
+                                                            <option value="Cash Payment">Cash Payment</option>
+                                                            <option value="Card Payment">Card Payment</option>
+                                                            <option value="Bank Transfer">Bank Transfer</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_title"
+                                                            class="col-form-label">Transaction Title <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="transaction_title" name="transaction_title"
+                                                            placeholder="Title of this transaction">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_recipient"
+                                                            class="col-form-label">Transaction Recipient <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="transaction_recipient" name="transaction_recipient"
+                                                            placeholder="Recipient of this transaction">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="teller_no" class="col-form-label">Teller Number(If
+                                                            Any) </label>
+                                                        <input type="text" class="form-control" id="teller_no"
+                                                            name="teller_no" placeholder="Teller number if any">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="bank" class="col-form-label">Bank</label>
+                                                        <input type="text" class="form-control" id="bank" name="bank"
+                                                            placeholder="Bank">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="expected_amount" class="col-form-label">Expected
+                                                            Amount <span class="red-asteriks">*</span></label>
+                                                        <input type="number" class="form-control required"
+                                                            id="expected_amount" name="expected_amount"
+                                                            placeholder="Expected amount to be paid">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transacted_amount" class="col-form-label">Transacted
+                                                            Amount <span class="red-asteriks">*</span></label>
+                                                        <input type="number" class="form-control required"
+                                                            id="transacted_amount" name="transacted_amount"
+                                                            placeholder="Amount Paid">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="transaction_remarks"
+                                                            class="col-form-label">Transaction Remarks <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <textarea class="form-control required" rows="10"
+                                                            id="transaction_remarks"
+                                                            name="transaction_remarks"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!-- end row -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit"
+                                                class="btn btn-info waves-effect waves-light btn-submit">Create
+                                                Transaction Record</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- form development modal -->
+                            <div id="editTransactionModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit / Transaction</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <!-- Form row -->
+                                            <form action="#" id="form-update-transaction">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_type1"
+                                                            class="col-form-label">Transaction Type <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <select id="transaction_type1" name="transaction_type"
+                                                            class="form-control selectpicker required">
+                                                            <option value="">Choose Type</option>
+                                                            <option value="Income">Income</option>
+                                                            <option value="Expenditure">Expenditure</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_mode1"
+                                                            class="col-form-label">Transaction Mode <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <select id="transaction_mode1" name="transaction_mode"
+                                                            class="form-control selectpicker required">
+                                                            <option value="">Choose Mode</option>
+                                                            <option value="Cash Payment">Cash Payment</option>
+                                                            <option value="Card Payment">Card Payment</option>
+                                                            <option value="Bank Transfer">Bank Transfer</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_title1"
+                                                            class="col-form-label">Transaction Title <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="transaction_title1" name="transaction_title"
+                                                            placeholder="Title of this transaction">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transaction_recipient1"
+                                                            class="col-form-label">Transaction Recipient <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="text" class="form-control required"
+                                                            id="transaction_recipient1" name="transaction_recipient"
+                                                            placeholder="Recipient of this transaction">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="teller_no1" class="col-form-label">Teller Number(If
+                                                            Any) </label>
+                                                        <input type="text" class="form-control" id="teller_no1"
+                                                            name="teller_no" placeholder="Teller number if any">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="bank1" class="col-form-label">Bank</label>
+                                                        <input type="text" class="form-control" id="bank1" name="bank"
+                                                            placeholder="Bank">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="expected_amount1" class="col-form-label">Expected
+                                                            Amount <span class="red-asteriks">*</span></label>
+                                                        <input type="number" class="form-control required"
+                                                            id="expected_amount1" name="expected_amount"
+                                                            placeholder="Expected amount to be paid">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="transacted_amount1"
+                                                            class="col-form-label">Transacted Amount <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <input type="number" class="form-control required"
+                                                            id="transacted_amount1" name="transacted_amount"
+                                                            placeholder="Amount Paid">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="transaction_remarks1"
+                                                            class="col-form-label">Transaction Remarks <span
+                                                                class="red-asteriks">*</span></label>
+                                                        <textarea class="form-control required" rows="10"
+                                                            id="transaction_remarks1"
+                                                            name="transaction_remarks"></textarea>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="transaction_id" name="transaction_id">
+                                                <!-- end row -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit"
+                                                class="btn btn-info waves-effect waves-light btn-submit">Update
+                                                Transaction</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- report modal -->
+                            <div id="reportModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Account Statement</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row print-area">
+                                                <div class="col-12">
+                                                    <div class="card-box">
+                                                        <!-- Logo & title -->
+                                                        <div class="clearfix">
+                                                            <div class="float-left">
+                                                                <img src="../../assets/images/logo.png" alt=""
+                                                                    height="60" class="store_logo">
+                                                            </div>
+                                                            <!-- <div class="float-right">
+			                                            <h4 class="m-0 d-print-none"></h4>
+			                                        </div> -->
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <!-- <div class="col-md-6">
+			                                            <div class="mt-3">
+			                                                <p>
+			                                                	<b>
+			                                                		Hello, 
+			                                                		<span class="company-name">
+			                                                			Stanley Jones
+			                                                		</span>
+			                                                	</b>
+			                                                </p>
+			                                                <p class="text-muted">
+			                                                	Our company will be requiring an immediate supply of the underlisted products. Thanks for your anticipated supply of quality products at the best prices. 
+			                                                </p>
+			                                            </div>
+			        
+			                                        </div> --><!-- end col -->
+                                                            <div class="col-12">
+                                                                <div class="mt-3 float-right">
+                                                                    <p class="m-b-10">
+                                                                        <strong>Opening Date : </strong>
+                                                                        <span class="float-right">
+                                                                            <span class="opening-date">-</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Closing Date : </strong>
+                                                                        <span class="float-right">
+                                                                            <span class="closing-date">-</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Income : </strong>
+                                                                        <span class="float-right income"
+                                                                            style="font-weight: 700">-</span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Expenditure : </strong>
+                                                                        <span class="float-right expenditure"
+                                                                            style="font-weight: 700">- </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Closing Balance : </strong>
+                                                                        <span class="float-right closing-balance"
+                                                                            style="font-weight: 700">- </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Store : </strong>
+                                                                        <span class="float-right store"
+                                                                            style="font-weight: 700">- </span>
+                                                                    </p>
+                                                                </div>
+                                                            </div><!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <!-- end row -->
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table mt-4 table-centered"
+                                                                        id="Transactions">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Store</th>
+                                                                                <th>From</th>
+                                                                                <th>Recipient</th>
+                                                                                <th>Date</th>
+                                                                                <th>Title</th>
+                                                                                <th>Type</th>
+                                                                                <th>Mode</th>
+                                                                                <th>Amount</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div> <!-- end table-responsive -->
+                                                            </div> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="clearfix pt-5">
+                                                                    <h6 class="text-muted">Notes:</h6>
+
+                                                                    <small class="text-muted">
+                                                                        A negative value in the closing balance
+                                                                        signifies a loss.
+                                                                    </small>
+                                                                </div>
+                                                            </div> <!-- end col -->
+                                                            <!-- <div class="col-sm-6">
+			                                            <div class="float-right">
+			                                            	<p><b>Total:</b> <span class="float-right"> &nbsp;&nbsp;&nbsp;</p>
+			                                                <h3>
+			                                                	<span>NGN</span> 
+			                                                	<span class="purchase_order_total_amount">0</span>
+			                                                </h3>
+			                                            </div>
+			                                            <div class="clearfix"></div>
+			                                        </div> --> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <!-- <div class="mt-4 mb-1">
+			                                        <div class="text-right d-print-none">
+			                                            <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Print</a>
+			                                            <a href="#" class="btn btn-success waves-effect waves-light">Submit</a>
+			                                        </div>
+			                                    </div> -->
+                                                    </div> <!-- end card-box -->
+                                                </div> <!-- end col -->
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button"
+                                                class="btn btn-info waves-effect waves-light btn-print"><i
+                                                    class="mdi mdi-printer mr-1"></i> Print Invoice</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- edit modal -->
+                            <div id="printModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row print-area">
+                                                <div class="col-12">
+                                                    <div class="card-box">
+                                                        <!-- Logo & title -->
+                                                        <div class="clearfix">
+                                                            <div class="float-left">
+                                                                <img src="../../assets/images/logo.png" alt=""
+                                                                    height="60" class="store_logo">
+                                                            </div>
+                                                            <div class="float-right">
+                                                                <h4 class="m-0 d-print-none">Invoice</h4>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="mt-3">
+                                                                    <p>
+                                                                        <b>
+                                                                            Hello,
+                                                                            <span class="customer-name"></span>
+                                                                        </b>
+                                                                    </p>
+                                                                    <p class="text-muted">
+                                                                        Thanks a lot because you keep purchasing our
+                                                                        products. Our company
+                                                                        promises to provide high quality products for
+                                                                        you as well as outstanding
+                                                                        customer service for every transaction.
+                                                                    </p>
+                                                                </div>
+
+                                                            </div><!-- end col -->
+                                                            <div class="col-md-4 offset-md-2">
+                                                                <div class="mt-3 float-right">
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order Date : </strong>
+                                                                        <span class="float-right">
+                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <span class="order-date">Jan 17, 2019</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order Status : </strong>
+                                                                        <span class="float-right order-status">
+                                                                            <span
+                                                                                class="badge badge-danger">Unpaid</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order No. : </strong>
+                                                                        <span class="float-right invoice-uuid">000013
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Store : </strong>
+                                                                        <span class="float-right store">000013 </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Cashier : </strong>
+                                                                        <span class="float-right cashier">000013 </span>
+                                                                    </p>
+                                                                </div>
+                                                            </div><!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <!-- end row -->
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table mt-4 table-centered"
+                                                                        id="item-list">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Item</th>
+                                                                                <th>Quantity</th>
+                                                                                <th>Unit Price</th>
+                                                                                <th>Sub Total</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div> <!-- end table-responsive -->
+                                                            </div> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="clearfix pt-5">
+                                                                    <h6 class="text-muted">Notes:</h6>
+
+                                                                    <small class="text-muted">
+                                                                        All accounts are to be paid within 7 days from
+                                                                        receipt of
+                                                                        invoice. To be paid by cheque or credit card or
+                                                                        direct payment
+                                                                        online. If account is not paid within 7 days the
+                                                                        credits details
+                                                                        supplied as confirmation of work undertaken will
+                                                                        be charged the
+                                                                        agreed quoted fee noted above.
+                                                                    </small>
+                                                                </div>
+                                                            </div> <!-- end col -->
+                                                            <div class="col-sm-6">
+                                                                <div class="float-right">
+                                                                    <p>
+                                                                        <b>Gross Total:</b>
+                                                                        <span class="float-right"> &nbsp;&nbsp;&nbsp;
+                                                                            <span>NGN</span>
+                                                                            <span class="invoice_gross_total">0</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <b>VAT <span
+                                                                                class="invoice_vat">(0%)</span>:</b>
+                                                                        <span class="float-right">
+                                                                            &nbsp;&nbsp;&nbsp;
+                                                                            <span>NGN</span>
+                                                                            <span class="vat_amount">0</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <b>Discount
+                                                                            <span class="invoice_discount">(0%)</span>:
+                                                                        </b>
+                                                                        <span class="float-right">
+                                                                            &nbsp;&nbsp;&nbsp;
+                                                                            <span>NGN</span>
+                                                                            <span class="discount_amount">0</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <h3>
+                                                                        <span>NGN</span>
+                                                                        <span class="invoice_net_total">0</span>
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <div class="mt-4 mb-1">
+                                                            <div class="text-right d-print-none">
+                                                                <a href="javascript:window.print()"
+                                                                    class="btn btn-primary waves-effect waves-light"><i
+                                                                        class="mdi mdi-printer mr-1"></i> Print</a>
+                                                                <a href="#"
+                                                                    class="btn btn-success waves-effect waves-light">Submit</a>
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- end card-box -->
+                                                </div> <!-- end col -->
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button"
+                                                class="btn btn-info waves-effect waves-light btn-print"><i
+                                                    class="mdi mdi-printer mr-1"></i> Print Invoice</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+
+                    <%- include('../partials/footer') %>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+        <!-- page script -->
+        <script src="/assets/js/pages/admin/transactions.js"></script>
+
+</body>
+
+</html>

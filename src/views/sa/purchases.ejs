@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                                                </li>
+                                                <li class="breadcrumb-item active">Purchases</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Purchases</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">Purchase Order Filter</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields marked with red asteriks(*) are required
+                                        </p>
+
+                                        <form action="#" id="filter">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="store_id">Store</label>
+                                                    <select class="selectpicker form-control" id="store_id"
+                                                        name="store_id" data-live-search="true">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="user_id">Users</label>
+                                                    <select class="selectpicker form-control" id="user_id"
+                                                        name="user_id" data-live-search="true">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="status">Status</label>
+                                                    <select class="selectpicker form-control" id="status" name="status"
+                                                        data-live-search="true">
+                                                        <option value="">All</option>
+                                                        <option value="Paid">Paid</option>
+                                                        <option value="Unpaid">Unpaid</option>
+                                                        <option value="Incomplete Payment">Incomplete Payment</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="datepicker">Activity Start Time (OPTIONAL)</label>
+                                                    <input type="text" id="datepicker" name="start_time"
+                                                        class="form-control" data-provide="datepicker"
+                                                        autocomplete="off">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="datepicker">Activity End Time (OPTIONAL)</label>
+                                                    <input type="text" id="datepicker1" name="end_time"
+                                                        class="form-control" data-provide="datepicker"
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Load Activities</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Log table row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="header-title">Purchase Orders</h4>
+                                            <p class="text-muted font-13 mb-4">
+                                                Click the edit or delete buttons attached to a purchase order to update
+                                                OR delete a record respectively
+                                            </p>
+
+                                            <table id="purchases" class="table activate-select dt-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Store</th>
+                                                        <th>Purchase Order ID</th>
+                                                        <th>Ordered By</th>
+                                                        <th>Supplier</th>
+                                                        <th>Order Total Amount</th>
+                                                        <th>Date / Time</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                </div><!-- end col-->
+                            </div>
+                            <!-- end row -->
+
+                            <!-- form development modal -->
+                            <div id="purchaseModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-full">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">New Purchase</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <!-- Form row -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <form action="#" id="form-new-purchase">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="card-box">
+                                                                    <!-- Logo & title -->
+                                                                    <div class="clearfix">
+                                                                        <div class="float-left">
+                                                                            <img src="/assets/images/logo.png" alt=""
+                                                                                height="60" class="store_logo">
+                                                                        </div>
+                                                                        <div class="float-right">
+                                                                            <h4 class="m-0 d-print-none">Purchase</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- <div class="clearfix"></div> -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="mt-3">
+                                                                                <p><b>Hello, <span
+                                                                                            class="cashier"></span></b>
+                                                                                </p>
+                                                                                <p class="text-muted">You will be
+                                                                                    required to click on the Orange ADD
+                                                                                    BUTTON attached to an item to create
+                                                                                    a new record of ordered item.
+                                                                                    Similarly, click the Red MINUS
+                                                                                    BUTTON to remove a record. Remember
+                                                                                    to input only digits were neccessary
+                                                                                </p>
+                                                                            </div>
+
+                                                                        </div><!-- end col -->
+                                                                        <div class="col-md-4 offset-md-2">
+                                                                            <div class="mt-3 float-right">
+                                                                                <p class="m-b-10">
+                                                                                    <strong>Order Date : </strong>
+                                                                                    <span class="float-right">
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        <span class="order_date"></span>
+                                                                                    </span>
+                                                                                </p>
+
+                                                                                <select
+                                                                                    class="form-control form-control-sm selectpicker store_id required mb-3"
+                                                                                    id="store_id1" name="store_id"
+                                                                                    data-live-search="true">
+                                                                                    <option value="">Choose Store
+                                                                                    </option>
+                                                                                </select>
+
+                                                                                <select
+                                                                                    class="form-control form-control-sm selectpicker required"
+                                                                                    id="purchase_order_status"
+                                                                                    name="purchase_order_status"
+                                                                                    data-live-search="true">
+                                                                                    <option value="">Choose Order Status
+                                                                                    </option>
+                                                                                    <option value="Paid">Paid</option>
+                                                                                    <option value="Unpaid">Unpaid
+                                                                                    </option>
+                                                                                    <option value="Incomplete Payment">
+                                                                                        Incomplete Payment</option>
+                                                                                </select>
+
+                                                                                <div class="mt-3">
+                                                                                    <input type="text"
+                                                                                        class="form-control required"
+                                                                                        placeholder="Company / Supplier Name"
+                                                                                        id="company_name"
+                                                                                        name="company_name">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div><!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+
+
+                                                                    <!-- end row -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="table-responsive">
+                                                                                <table id="ordered-items-list"
+                                                                                    class="table mt-4 table-centered">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th style="width: 20%">Item
+                                                                                            </th>
+                                                                                            <th style="width: 16%">
+                                                                                                Quantity Ordered</th>
+                                                                                            <th style="width: 16%">Unit
+                                                                                                Price</th>
+                                                                                            <th style="width: 16%">Sub
+                                                                                                Total</th>
+                                                                                            <th style="width: 16%">
+                                                                                                Actions</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr data-row-id="1">
+                                                                                            <td>
+                                                                                                <input type="text"
+                                                                                                    class="form-control required purchase_order_item"
+                                                                                                    placeholder="Item name"
+                                                                                                    name="purchase_order_item">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control required purchase_order_item_qty"
+                                                                                                    placeholder="Quantity Ordered"
+                                                                                                    name="purchase_order_item_qty">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control purchase_order_item_unit_price required"
+                                                                                                    placeholder="Unit Price of Item"
+                                                                                                    name="purchase_order_item_unit_price">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control sub_total required"
+                                                                                                    placeholder="Sub Total"
+                                                                                                    name="sub_total"
+                                                                                                    readonly>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <a href="javascript:void(0)"
+                                                                                                    class="btn btn-add  btn-warning btn-sm waves-effect waves-light"><i
+                                                                                                        class="mdi mdi-plus"></i></a>
+                                                                                                <a href="javascript:void(0)"
+                                                                                                    class="btn btn-remove btn-danger btn-sm waves-effect waves-light"><i
+                                                                                                        class="mdi mdi-minus"></i></a>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div> <!-- end table-responsive -->
+                                                                        </div> <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="clearfix"></div>
+                                                                            <div class="clearfix pt-5">
+                                                                                <h6 class="text-muted">Notes:</h6>
+
+                                                                                <small class="text-muted">
+                                                                                    Please note that you will not have
+                                                                                    access to edit / update this
+                                                                                    purchase order after submission.
+                                                                                    Endeavor to cross-check entry before
+                                                                                    submitting. You can only delete and
+                                                                                    start afresh after submission.
+                                                                                </small>
+                                                                            </div>
+                                                                        </div> <!-- end col -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="float-right summary">
+                                                                                <p><b>Total:</b> <span
+                                                                                        class="float-right">
+                                                                                        &nbsp;&nbsp;&nbsp;</p>
+                                                                                <h3><span>USD</span> <span
+                                                                                        class="purchase_order_total_amount"
+                                                                                        data-value="0">0</h3>
+                                                                            </div>
+                                                                            <div class="clearfix"></div>
+                                                                        </div> <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+                                                                </div> <!-- end card-box -->
+                                                            </div> <!-- end col -->
+                                                        </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit"
+                                                class="btn btn-info waves-effect waves-light btn-submit">Create Purchase
+                                                Order</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- form development modal -->
+                            <div id="editPurchaseModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-full">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit / Update Purchase Order</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <!-- Form row -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <form action="#" id="form-update-purchase">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="card-box">
+                                                                    <!-- Logo & title -->
+                                                                    <div class="clearfix">
+                                                                        <div class="float-left">
+                                                                            <img src="/assets/images/logo.png" alt=""
+                                                                                height="60" class="store_logo">
+                                                                        </div>
+                                                                        <div class="float-right">
+                                                                            <h4 class="m-0 d-print-none">Purchase</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- <div class="clearfix"></div> -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="mt-3">
+                                                                                <p>
+                                                                                    <b>Hello,
+                                                                                        <span class="cashier"></span>
+                                                                                    </b>
+                                                                                </p>
+                                                                                <p class="text-muted">
+                                                                                    You will be required to click on the
+                                                                                    Orange ADD BUTTON attached to an
+                                                                                    item to create a new record of
+                                                                                    ordered item. Similarly, click the
+                                                                                    Red MINUS BUTTON to remove a record.
+                                                                                    Remember to input only digits were
+                                                                                    neccessary
+                                                                                </p>
+                                                                            </div>
+
+                                                                        </div><!-- end col -->
+                                                                        <div class="col-md-4 offset-md-2">
+                                                                            <div class="mt-3 float-right">
+                                                                                <p class="m-b-10">
+                                                                                    <strong>Order Date : </strong>
+                                                                                    <span class="float-right">
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        <span class="order_date"></span>
+                                                                                    </span>
+                                                                                </p>
+
+                                                                                <select
+                                                                                    class="form-control form-control-sm selectpicker store_id required mb-3"
+                                                                                    id="store_id2" name="store_id"
+                                                                                    data-live-search="true">
+                                                                                    <option value="">Choose Store
+                                                                                    </option>
+                                                                                </select>
+
+                                                                                <select
+                                                                                    class="form-control form-control-sm selectpicker required"
+                                                                                    id="purchase_order_status1"
+                                                                                    name="purchase_order_status"
+                                                                                    data-live-search="true">
+                                                                                    <option value="">Choose Order Status
+                                                                                    </option>
+                                                                                    <option value="Paid">Paid</option>
+                                                                                    <option value="Unpaid">Unpaid
+                                                                                    </option>
+                                                                                    <option value="Incomplete Payment">
+                                                                                        Incomplete Payment</option>
+                                                                                </select>
+
+                                                                                <div class="mt-3">
+                                                                                    <input type="text"
+                                                                                        class="form-control required"
+                                                                                        placeholder="Company / Supplier Name"
+                                                                                        id="company_name1"
+                                                                                        name="company_name">
+                                                                                </div>
+                                                                                <input type="hidden" class="required"
+                                                                                    id="purchase_order_id"
+                                                                                    name="purchase_order_id">
+                                                                            </div>
+                                                                        </div><!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+
+
+                                                                    <!-- end row -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="table-responsive">
+                                                                                <table id="ordered-items-list1"
+                                                                                    class="table mt-4 table-centered">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th style="width: 20%">Item
+                                                                                            </th>
+                                                                                            <th style="width: 16%">
+                                                                                                Quantity Ordered</th>
+                                                                                            <th style="width: 16%">Unit
+                                                                                                Price</th>
+                                                                                            <th style="width: 16%">Sub
+                                                                                                Total</th>
+                                                                                            <th style="width: 16%">
+                                                                                                Actions</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr data-row-id="1">
+                                                                                            <td>
+                                                                                                <input type="text"
+                                                                                                    class="form-control required purchase_order_item"
+                                                                                                    placeholder="Item name"
+                                                                                                    name="purchase_order_item">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control required purchase_order_item_qty"
+                                                                                                    placeholder="Quantity Ordered"
+                                                                                                    name="purchase_order_item_qty">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control purchase_order_item_unit_price required"
+                                                                                                    placeholder="Unit Price of Item"
+                                                                                                    name="purchase_order_item_unit_price">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                    class="form-control sub_total required"
+                                                                                                    placeholder="Sub Total"
+                                                                                                    name="sub_total"
+                                                                                                    readonly>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <a href="javascript:void(0)"
+                                                                                                    class="btn btn-add  btn-warning btn-sm waves-effect waves-light"><i
+                                                                                                        class="mdi mdi-plus"></i></a>
+                                                                                                <a href="javascript:void(0)"
+                                                                                                    class="btn btn-remove btn-danger btn-sm waves-effect waves-light"><i
+                                                                                                        class="mdi mdi-minus"></i></a>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div> <!-- end table-responsive -->
+                                                                        </div> <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="clearfix"></div>
+                                                                            <div class="clearfix pt-5">
+                                                                                <h6 class="text-muted">Notes:</h6>
+
+                                                                                <small class="text-muted">
+                                                                                    Please note that you will not have
+                                                                                    access to edit / update this
+                                                                                    purchase order after submission.
+                                                                                    Endeavor to cross-check entry before
+                                                                                    submitting. You can only delete and
+                                                                                    start afresh after submission.
+                                                                                </small>
+                                                                            </div>
+                                                                        </div> <!-- end col -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="float-right summary">
+                                                                                <p>
+                                                                                    <b>Total:</b>
+                                                                                </p>
+                                                                                <h3>
+                                                                                    <span>USD</span>
+                                                                                    <span
+                                                                                        class="purchase_order_total_amount"
+                                                                                        data-value="0">
+                                                                                        0
+                                                                                    </span>
+                                                                                </h3>
+
+                                                                            </div>
+                                                                            <div class="clearfix"></div>
+                                                                        </div> <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+                                                                </div> <!-- end card-box -->
+                                                            </div> <!-- end col -->
+                                                        </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit"
+                                                class="btn btn-info waves-effect waves-light btn-submit">Update Purchase
+                                                Order</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                            <!-- edit modal -->
+                            <div id="printModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row print-area">
+                                                <div class="col-12">
+                                                    <div class="card-box">
+                                                        <!-- Logo & title -->
+                                                        <div class="clearfix">
+                                                            <div class="float-left">
+                                                                <img src="/assets/images/logo.png" alt="" height="60"
+                                                                    class="store_logo">
+                                                            </div>
+                                                            <div class="float-right">
+                                                                <h4 class="m-0 d-print-none">Purchase</h4>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="mt-3">
+                                                                    <p>
+                                                                        <b>
+                                                                            Hello,
+                                                                            <span class="company-name">
+
+                                                                            </span>
+                                                                        </b>
+                                                                    </p>
+                                                                    <p class="text-muted">
+                                                                        Our company will be requiring an immediate
+                                                                        supply of the underlisted products. Thanks for
+                                                                        your anticipated supply of quality products at
+                                                                        the best prices.
+                                                                    </p>
+                                                                </div>
+
+                                                            </div><!-- end col -->
+                                                            <div class="col-md-4 offset-md-2">
+                                                                <div class="mt-3 float-right">
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order Date : </strong>
+                                                                        <span class="float-right">
+                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <span class="order-date"></span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order Status : </strong>
+                                                                        <span class="float-right order-status">
+                                                                            <span
+                                                                                class="badge badge-danger">Unpaid</span>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Order No. : </strong>
+                                                                        <span class="float-right purchase-uuid"> </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Store : </strong>
+                                                                        <span class="float-right store"> </span>
+                                                                    </p>
+                                                                    <p class="m-b-10">
+                                                                        <strong>Contact : </strong>
+                                                                        <span class="float-right contact-person">
+                                                                        </span>
+                                                                    </p>
+                                                                </div>
+                                                            </div><!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <!-- end row -->
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table mt-4 table-centered"
+                                                                        id="item-list">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Item</th>
+                                                                                <th>Quantity</th>
+                                                                                <th>Unit Price</th>
+                                                                                <th>Sub Total</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div> <!-- end table-responsive -->
+                                                            </div> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="clearfix pt-5">
+                                                                    <h6 class="text-muted">Notes:</h6>
+
+                                                                    <small class="text-muted">
+                                                                        We will be requesting an immediate call to
+                                                                        notify us on price changes. This is to enable us
+                                                                        keep good and clean records.
+                                                                    </small>
+                                                                </div>
+                                                            </div> <!-- end col -->
+                                                            <div class="col-sm-6">
+                                                                <div class="float-right">
+                                                                    <p><b>Total:</b> <span class="float-right">
+                                                                            &nbsp;&nbsp;&nbsp;</p>
+                                                                    <h3>
+                                                                        <span>USD</span>
+                                                                        <span
+                                                                            class="purchase_order_total_amount">0</span>
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div> <!-- end col -->
+                                                        </div>
+                                                        <!-- end row -->
+                                                    </div> <!-- end card-box -->
+                                                </div> <!-- end col -->
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button"
+                                                class="btn btn-info waves-effect waves-light btn-print"><i
+                                                    class="mdi mdi-printer mr-1"></i> Print Purchase Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+
+                    <%- include('../partials/footer') %>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+        <!-- page script -->
+        <script src="/assets/js/pages/admin/purchases.js"></script>
+
+</body>
+
+</html>
