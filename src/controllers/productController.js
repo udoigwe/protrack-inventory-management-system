@@ -1024,7 +1024,8 @@ module.exports = {
 	},
 	findAllProducts: async (req, res) => {
 		const rez = {};
-		const { store_id, category_id, brand_id, status } = req.query;
+		const { store_id, category_id, brand_id, status, expiry_status } =
+			req.query;
 		const page = parseInt(req.query.page);
 		const limit = parseInt(req.query.limit);
 
@@ -1049,6 +1050,11 @@ module.exports = {
 
 		if (status) {
 			query += " AND a.product_status = ?";
+			queryParams.push(status);
+		}
+
+		if (expiry_status && expiry_status === "Not_Expired") {
+			query += " AND a.product_expiry_date > NOW()";
 			queryParams.push(status);
 		}
 
