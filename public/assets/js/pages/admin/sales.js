@@ -695,7 +695,7 @@ $(function () {
 
 		$.ajax({
 			type: "GET",
-			url: `${API_URL_ROOT}/products?store_id=${storeID}`,
+			url: `${API_URL_ROOT}/products?store_id=${storeID}&expiry_status=Not_Expired`,
 			dataType: "json",
 			headers: { "x-access-token": token },
 			success: function (response) {
@@ -737,7 +737,7 @@ $(function () {
 
 			$.ajax({
 				type: "GET",
-				url: `${API_URL_ROOT}/products?store_id=${storeID}`,
+				url: `${API_URL_ROOT}/products?store_id=${storeID}&expiry_status=Not_Expired`,
 				dataType: "json",
 				headers: { "x-access-token": token },
 				success: function (response) {
