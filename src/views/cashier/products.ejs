@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body onload="notLoggedInCheck(); displayUserProfile();">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/topBar') %>
+
+            <%- include('leftSideBar') %>
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content here -->
+                <!-- ============================================================== -->
+
+                <div class="content-page">
+                    <div class="content">
+
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                                                </li>
+                                                <li class="breadcrumb-item">Product Management</li>
+                                                <li class="breadcrumb-item active">Products</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Products</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <!-- Form row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">Product Filter</h4>
+                                        <p class="sub-header">
+                                            Please note that all fields are required
+                                        </p>
+
+                                        <form action="#" id="filter">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_category_id2">Product Category</label>
+                                                    <select class="selectpicker form-control" id="product_category_id2"
+                                                        name="product_category_id">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_brand_id2">Product Brand</label>
+                                                    <select class="selectpicker form-control product_brand_id"
+                                                        id="product_brand_id2" name="product_brand_id">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="product_status1">Product Status</label>
+                                                    <select class="selectpicker form-control" id="product_status1"
+                                                        name="product_status">
+                                                        <option value="">All</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="Inactive">Inactive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Load Products</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            <!-- Organizations table row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="header-title">Existing Products</h4>
+                                            <p class="text-muted font-13 mb-4">
+                                                Click the edit or delete buttons attached to a product to update OR
+                                                delete a record respectively
+                                            </p>
+
+                                            <table id="products" class="table activate-select dt-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SNO</th>
+                                                        <th>Product</th>
+                                                        <th>Category</th>
+                                                        <th>Brand</th>
+                                                        <th>Cost Price</th>
+                                                        <th>Price</th>
+                                                        <th>Qty In Stock</th>
+                                                        <th>Unit Of Measurement</th>
+                                                        <th>Reorder Level</th>
+                                                        <th>Product Sales Tax Rate (%)</th>
+                                                        <th>Product Discount Rate (%)</th>
+                                                        <th>Product Expiry Date</th>
+                                                        <th>Product Expiry Discount Rate (%)</th>
+                                                        <th>Store</th>
+                                                        <th>Created At</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                </div><!-- end col-->
+                            </div>
+                            <!-- end row -->
+
+                            <!-- qr modal -->
+                            <div id="qrModal" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body p-4" id="qrCode"
+                                            style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+
+                    <%- include('../partials/footer') %>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/js') %>
+
+        <!-- page script -->
+        <script src="/assets/js/pages/admin/products.js"></script>
+
+</body>
+
+</html>

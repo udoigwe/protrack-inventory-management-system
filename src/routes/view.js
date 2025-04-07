@@ -30,6 +30,7 @@ router.get("/admin/account", viewController.adminAccount);
 
 /* CASHIER */
 router.get("/cashier/dashboard", viewController.cashierHome);
+router.get("/cashier/products", viewController.cashierProducts);
 router.get("/cashier/sales", viewController.cashierSales);
 router.get("/cashier/account", viewController.cashierAccount);
 
