@@ -81,7 +81,7 @@ router.get(
 );
 router.get(
 	"/products/data-table/fetch",
-	checkAuth.isAdminOrSuperAdminCheck,
+	checkAuth.verifyToken,
 	productController.fetchProductsForDataTable
 );
 router.put(
