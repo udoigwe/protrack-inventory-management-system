@@ -192,7 +192,7 @@ $(function () {
 				//load products related to store
 				$.ajax({
 					type: "GET",
-					url: `${API_URL_ROOT}/products?store_id=${storeID}`,
+					url: `${API_URL_ROOT}/products?store_id=${storeID}&expiry_status=Not_Expired`,
 					dataType: "json",
 					headers: { "x-access-token": token },
 					success: function (response) {
@@ -702,6 +702,7 @@ $(function () {
 				if (response.error == false) {
 					var products = response.result.products;
 					var html = "";
+					console.log(products);
 
 					for (var i = 0; i < products.length; i++) {
 						html += `
