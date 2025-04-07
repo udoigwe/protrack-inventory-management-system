@@ -1054,8 +1054,8 @@ module.exports = {
 		}
 
 		if (expiry_status && expiry_status === "Not_Expired") {
-			query += " AND a.product_expiry_date > NOW()";
-			queryParams.push(status);
+			query +=
+				" AND a.product_expiry_date > NOW() OR a.product_expiry_date IS NULL";
 		}
 
 		query += " ORDER BY a.product_id DESC";
