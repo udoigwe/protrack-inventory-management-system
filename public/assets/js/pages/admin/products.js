@@ -438,6 +438,7 @@ $(function () {
 			payloadClaim(token, "user_role") == "Admin"
 				? payloadClaim(token, "user_store_id")
 				: storeID;
+		var userRole = payloadClaim(token, "user_role");
 
 		table.DataTable({
 			oLanguage: {
@@ -564,20 +565,25 @@ $(function () {
 					data: "product_id",
 					render: function (data, type, row, meta) {
 						var actions =
-							`
+							userRole !== "Cashier"
+								? `
                             <a href="javascript:void(0);" class="btn btn-link font-18 text-muted btn-sm btn-edit" title="Edit Product" data-id="` +
-							data +
-							`" data-toggle="modal" data-target="#editModal" data-animation="fall" data-plugin="custommodal" data-overlayColor="#012"><i class="mdi mdi-pencil"></i>
+								  data +
+								  `" data-toggle="modal" data-target="#editModal" data-animation="fall" data-plugin="custommodal" data-overlayColor="#012"><i class="mdi mdi-pencil"></i>
                             </a>
                             <a href="javascript:void(0);" class="btn btn-link font-18 text-muted btn-sm btn-delete" title="Delete Product" data-id="` +
-							data +
-							`"><i class="mdi mdi-close"></i>
+								  data +
+								  `"><i class="mdi mdi-close"></i>
                             </a>
                             <a href="javascript:void(0);" class="btn btn-link font-18 text-muted btn-sm btn-qr-scan" title="Scan QR Code" data-id="` +
-							data +
-							`" data-toggle="modal" data-target="#qrModal" data-animation="fall" data-plugin="custommodal" data-overlayColor="#012"><i class="mdi mdi-qrcode-scan"></i>
+								  data +
+								  `" data-toggle="modal" data-target="#qrModal" data-animation="fall" data-plugin="custommodal" data-overlayColor="#012"><i class="mdi mdi-qrcode-scan"></i>
                             </a>
-                        `;
+                        `
+								: `<a href="javascript:void(0);" class="btn btn-link font-18 text-muted btn-sm btn-qr-scan" title="Scan QR Code" data-id="` +
+								  data +
+								  `" data-toggle="modal" data-target="#qrModal" data-animation="fall" data-plugin="custommodal" data-overlayColor="#012"><i class="mdi mdi-qrcode-scan"></i>
+                            </a>`;
 
 						return actions;
 					},
