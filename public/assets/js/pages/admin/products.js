@@ -147,8 +147,19 @@ $(function () {
 				success: function (response) {
 					if (response.error == false) {
 						var product = response.product;
+						var expiryDate = product.product_expiry_date;
+						const expiryResult =
+							!expiryDate || !moment(expiryDate).isValid()
+								? "N/A"
+								: moment(expiryDate).isBefore(moment())
+								? "Expired"
+								: moment(expiryDate).isAfter(moment())
+								? "Not Expired"
+								: "";
+
 						qrModal.find(".modal-body").empty();
 						qrModal.find(".modal-title").text(product.product_name);
+
 						var qrContent = `
                             Product Name: ${product.product_name} \n
                             Product Cost Price: ${product.product_cost_price} \n
@@ -156,7 +167,8 @@ $(function () {
                             Quantity In Stock: ${product.product_stock} \n
                             Reorder Level: ${product.product_reorder_level} \n
                             Sales Tax: ${product.product_vat_rate} % \n
-                            Unit: ${product.product_measuring_units}
+                            Unit: ${product.product_measuring_units} \n
+							Expiry Status: ${expiryResult}
                         `;
 						var qrcode = new QRCode("qrCode", {
 							text: qrContent,

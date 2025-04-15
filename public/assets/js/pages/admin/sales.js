@@ -702,7 +702,6 @@ $(function () {
 				if (response.error == false) {
 					var products = response.result.products;
 					var html = "";
-					console.log(products);
 
 					for (var i = 0; i < products.length; i++) {
 						html += `

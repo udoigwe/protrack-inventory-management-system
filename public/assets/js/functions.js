@@ -561,3 +561,87 @@ function formatCurrency(amount, currencyCode = "USD", locale = "en-US") {
 
 	return formatter.format(amount);
 }
+
+function showExpiredProducts() {
+	setInterval(() => {
+		const token = sessionStorage.getItem("token");
+		var role = payloadClaim(token, "user_role");
+		var storeID = payloadClaim(token, "store_id");
+
+		if (role === "Super Admin" || role === "Admin") {
+			$.ajax({
+				type: "GET",
+				url:
+					role === "Super Admin"
+						? `${API_URL_ROOT}/products?expiry_status=Expired`
+						: `${API_URL_ROOT}/products?store_id=${storeID}&expiry_status=Expired`,
+				dataType: "json",
+				headers: { "x-access-token": token },
+				success: function (response) {
+					if (response.error == false) {
+						var products = response.result.products;
+						var html = "";
+
+						for (var i = 0; i < products.length; i++) {
+							const product = products[0];
+
+							html += `
+								<tr>
+									<td>${i + 1}</td>
+									<td>${product.product_name}</td>
+									<td>${product.product_category_name}</td>
+									<td>${product.product_brand_name}</td>
+									<td>${formatCurrency(product.product_cost_price)}</td>
+									<td>${formatCurrency(product.product_price)}</td>
+									<td>${product.product_stock}</td>
+									<td>${product.product_measuring_units}</td>
+									<td>${
+										moment(
+											product.product_expiry_date
+										).isValid()
+											? moment(
+													product.product_expiry_date
+											  ).format(
+													"Do MMMM YYYY, hh:mm:ss A"
+											  )
+											: "-"
+									}</td>
+								</tr>
+							`;
+						}
+
+						if (products.length > 0) {
+							var expiredModal = $("#expiredModal");
+							expiredModal
+								.find("#expired-products tbody")
+								.html(html);
+							expiredModal.modal("show");
+							$("body")
+								.find(".close")
+								.on("click", function () {
+									expiredModal.modal("hide");
+								});
+
+							unblockUI();
+						}
+					} else {
+						unblockUI();
+						showSimpleMessage(
+							"Attention",
+							response.message,
+							"error"
+						);
+					}
+				},
+				error: function (req, status, error) {
+					unblockUI();
+					showSimpleMessage(
+						"Attention",
+						"ERROR - " + req.status + " : " + req.statusText,
+						"error"
+					);
+				},
+			});
+		}
+	}, 120000);
+}

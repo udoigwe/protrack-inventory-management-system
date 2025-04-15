@@ -1058,6 +1058,10 @@ module.exports = {
 				" AND a.product_expiry_date > NOW() OR a.product_expiry_date IS NULL";
 		}
 
+		if (expiry_status && expiry_status === "Expired") {
+			query += " AND a.product_expiry_date < NOW()";
+		}
+
 		query += " ORDER BY a.product_id DESC";
 
 		const connection = await util.promisify(db.getConnection).bind(db)();
