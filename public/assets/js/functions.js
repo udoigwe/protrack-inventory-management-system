@@ -566,7 +566,7 @@ function showExpiredProducts() {
 	setInterval(() => {
 		const token = sessionStorage.getItem("token");
 		var role = payloadClaim(token, "user_role");
-		var storeID = payloadClaim(token, "store_id");
+		var storeID = payloadClaim(token, "user_store_id");
 
 		if (role === "Super Admin" || role === "Admin") {
 			$.ajax({
@@ -583,7 +583,7 @@ function showExpiredProducts() {
 						var html = "";
 
 						for (var i = 0; i < products.length; i++) {
-							const product = products[0];
+							const product = products[i];
 
 							html += `
 								<tr>
