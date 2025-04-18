@@ -42,13 +42,13 @@ module.exports = {
 					[newPrice, item.product_id]
 				);
 
-				console.log(
+				/* console.log(
 					`${item.product_name} price changed to ${newPrice} due to close expiration date & time`
-				);
+				); */
 			}
 
 			// Reset price_reduced to false for items that were updated
-			if (itemsToReducePrice.length > 0) {
+			/* if (itemsToReducePrice.length > 0) {
 				const itemIds = itemsToReducePrice
 					.map((item) => item.product_id)
 					.join(",");
@@ -58,9 +58,9 @@ module.exports = {
                     SET price_reduced = false 
                     WHERE product_id IN (${itemIds})
                 `);
-			}
+			} */
 
-			console.log(`Product price update job executed successfully`);
+			//console.log(`Product price update job executed successfully`);
 		} catch (e) {
 			console.log(e.stack);
 

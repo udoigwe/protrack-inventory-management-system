@@ -1420,6 +1420,11 @@ module.exports = {
 					product_expiry_date && product_expiry_time
 						? `${product_expiry_date} ${product_expiry_time}:00`
 						: null;
+				const priceReduced =
+					productExpiryDate &&
+					moment().isBefore(moment(productExpiryDate))
+						? "0"
+						: product.price_reduced;
 
 				req.activity_details = {
 					previous_product_name: product.product_name,
@@ -1474,7 +1479,8 @@ module.exports = {
                             product_discount_rate = ?, 
                             product_status = ?,
                             product_expiry_date = ?,
-                            product_expiry_discount_rate = ?
+                            product_expiry_discount_rate = ?,
+							price_reduced = ?
                         WHERE product_id = ?`;
 
 				let updateQueryParams = [
@@ -1493,6 +1499,7 @@ module.exports = {
 					product_status,
 					productExpiryDate,
 					product_expiry_discount_rate,
+					priceReduced,
 					productID,
 				];
 

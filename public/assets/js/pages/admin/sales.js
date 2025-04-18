@@ -106,10 +106,10 @@ $(function () {
                                     <td>${item.product_name}</td>
                                     <td>${item.product_measuring_units}</td>
                                     <td>${item.invoice_product_qty}</td>
-                                    <td>${item.invoice_product_unit_price}</td>
-                                    <td>${item.invoice_product_vat}</td>
-                                    <td>${item.invoice_product_discount}</td>
-                                    <td>${
+                                    <td>$${item.invoice_product_unit_price}</td>
+                                    <td>$${item.invoice_product_vat}</td>
+                                    <td>$${item.invoice_product_discount}</td>
+                                    <td>$${
 										item.invoice_product_qty *
 											item.invoice_product_unit_price +
 										item.invoice_product_vat -
@@ -804,7 +804,15 @@ $(function () {
 								.val(product.product_vat_rate);
 							parentTR
 								.find(".product_discount_rate")
-								.val(product.product_discount_rate);
+								.val(
+									parseFloat(product.product_discount_rate) +
+										parseFloat(
+											product.price_reduced == "1"
+												? product.product_expiry_discount_rate ??
+														0
+												: 0
+										)
+								);
 							parentTR.find(".quantity_ordered").val(0);
 							parentTR.find(".sub_total").val(0);
 

@@ -99,6 +99,10 @@ module.exports = {
 					}
 
 					const product = rows[0];
+					const productExpiryDiscountRate =
+						product.price_reduced == "1"
+							? product.product_expiry_discount_rate ?? 0
+							: 0;
 
 					//check if product is in stock
 					if (
@@ -118,14 +122,17 @@ module.exports = {
 					//get product discount
 					let productDiscount =
 						(product.product_price *
-							product.product_discount_rate) /
+							(product.product_discount_rate +
+								productExpiryDiscountRate)) /
 						100;
 
 					//add product vat rate to total vat rate
 					totalVatRate += product.product_vat_rate;
 
 					//add product discount rate
-					totalDiscountRate += product.product_discount_rate;
+					totalDiscountRate +=
+						product.product_discount_rate +
+						productExpiryDiscountRate;
 
 					//add product vat amount to total vat amount
 					totalVatAmount += productVAT;
@@ -226,9 +233,17 @@ module.exports = {
 					let invoiceProductVatAmount =
 						(pr[0].product_price * pr[0].product_vat_rate) / 100;
 
+					// get product expiry discount rate
+					let prExpiryDiscountRate =
+						pr[0].price_reduced == "1"
+							? pr[0].product_expiry_discount_rate ?? 0
+							: 0;
+
 					//get invoice product discount amount
 					let invoiceProductDiscountAmount =
-						(pr[0].product_price * pr[0].product_discount_rate) /
+						(pr[0].product_price *
+							(pr[0].product_discount_rate +
+								parseFloat(prExpiryDiscountRate))) /
 						100;
 
 					await util.promisify(connection.query).bind(connection)(

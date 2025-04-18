@@ -56,7 +56,7 @@ app.use(process.env.ROUTE_PREFIX, transactionRoutes);
 app.use(viewRoutes);
 
 //run cron jobs
-scheduleExpiredProductStockUpdate();
+//scheduleExpiredProductStockUpdate();
 scheduleExpiringProductPriceUpdate();
 
 app.listen(port, () => {
