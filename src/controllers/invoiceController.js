@@ -99,10 +99,6 @@ module.exports = {
 					}
 
 					const product = rows[0];
-					const productExpiryDiscountRate =
-						product.price_reduced == "1"
-							? product.product_expiry_discount_rate ?? 0
-							: 0;
 
 					//check if product is in stock
 					if (
@@ -122,23 +118,22 @@ module.exports = {
 					//get product discount
 					let productDiscount =
 						(product.product_price *
-							(product.product_discount_rate +
-								productExpiryDiscountRate)) /
+							product.product_discount_rate) /
 						100;
 
 					//add product vat rate to total vat rate
 					totalVatRate += product.product_vat_rate;
 
 					//add product discount rate
-					totalDiscountRate +=
-						product.product_discount_rate +
-						productExpiryDiscountRate;
+					totalDiscountRate += product.product_discount_rate;
 
 					//add product vat amount to total vat amount
-					totalVatAmount += productVAT;
+					totalVatAmount +=
+						productVAT * parseFloat(item.quantity_ordered);
 
 					//add product discount amount to total discount amount
-					totalDiscountAmount += productDiscount;
+					totalDiscountAmount +=
+						productDiscount * parseFloat(item.quantity_ordered);
 
 					//if it is in stock, calculate the subtotal
 					const subTotal =
@@ -231,23 +226,32 @@ module.exports = {
 
 					//get invoice product VAT amount
 					let invoiceProductVatAmount =
-						(pr[0].product_price * pr[0].product_vat_rate) / 100;
+						((pr[0].product_price * pr[0].product_vat_rate) / 100) *
+						parseFloat(item.quantity_ordered);
 
 					// get product expiry discount rate
 					let prExpiryDiscountRate =
 						pr[0].price_reduced == "1"
 							? pr[0].product_expiry_discount_rate ?? 0
 							: 0;
+					//get product original amount before discount
+					let productOriginalPRice =
+						pr[0].product_price / (1 - prExpiryDiscountRate * 0.01);
 
 					//get invoice product discount amount
 					let invoiceProductDiscountAmount =
-						(pr[0].product_price *
-							(pr[0].product_discount_rate +
-								parseFloat(prExpiryDiscountRate))) /
-						100;
+						((pr[0].product_price * pr[0].product_discount_rate) /
+							100) *
+						parseFloat(item.quantity_ordered);
+
+					//get invoice remark if any
+					let invoiceRemark =
+						pr[0].price_reduced == "1"
+							? `${prExpiryDiscountRate}% discount applied on original price $${productOriginalPRice} due to near-expiry`
+							: null;
 
 					await util.promisify(connection.query).bind(connection)(
-						"INSERT INTO invoice_items (invoice_id, invoice_product_id, invoice_product_unit_cost_price, invoice_product_unit_price, invoice_product_qty, invoice_product_vat, invoice_product_discount, invoice_product_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+						"INSERT INTO invoice_items (invoice_id, invoice_product_id, invoice_product_unit_cost_price, invoice_product_unit_price, invoice_product_qty, invoice_product_vat, invoice_product_discount, invoice_remark, invoice_product_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 						[
 							rows1.insertId,
 							item.product_id,
@@ -256,6 +260,7 @@ module.exports = {
 							item.quantity_ordered,
 							invoiceProductVatAmount.toFixed(2),
 							invoiceProductDiscountAmount.toFixed(2),
+							invoiceRemark,
 							now,
 						]
 					);

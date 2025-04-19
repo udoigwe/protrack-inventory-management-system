@@ -39,7 +39,7 @@ module.exports = {
                         SET product_price = ?, price_reduced = true 
                         WHERE product_id = ?
                     `,
-					[newPrice, item.product_id]
+					[newPrice.toFixed(2), item.product_id]
 				);
 
 				/* console.log(
