@@ -132,6 +132,7 @@ $(function () {
 				{ data: "product_category_name" },
 				{ data: "product_stock" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_measuring_units" },
 				{ data: "product_price" },
 			],
@@ -185,6 +186,7 @@ $(function () {
 				{ data: "product_category_name" },
 				{ data: "product_stock" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_measuring_units" },
 				{ data: "product_price" },
 				{
@@ -292,6 +294,7 @@ $(function () {
 				{ data: "store_name" },
 				{ data: "product_stock" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_measuring_units" },
 				{ data: "product_price" },
 				{ data: "current_price" },

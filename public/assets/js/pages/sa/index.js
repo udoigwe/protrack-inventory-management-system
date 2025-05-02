@@ -202,11 +202,12 @@ $(function () {
 				{ data: "organization_name" },
 				{ data: "product_stock" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_measuring_units" },
 				{ data: "product_price" },
 			],
 			columnDefs: [
-				{ orderable: false, targets: [1, 2, 3, 4, 5, 6, 7, 8] },
+				{ orderable: false, targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
 			],
 		});
 	}
@@ -245,6 +246,7 @@ $(function () {
 				{ data: "store_name" },
 				{ data: "product_stock" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_measuring_units" },
 				{ data: "product_price" },
 				{ data: "current_price" },
@@ -259,7 +261,7 @@ $(function () {
 			columnDefs: [
 				{
 					orderable: false,
-					targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+					targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
 				},
 			],
 		});

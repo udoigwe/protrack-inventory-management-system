@@ -79,6 +79,7 @@ $(function () {
 						editModal
 							.find("#product_reorder_level1")
 							.val(product.product_reorder_level);
+						editModal.find("#batch_no1").val(product.batch_no);
 						editModal
 							.find("#product_vat_rate")
 							.val(product.product_vat_rate);
@@ -166,6 +167,7 @@ $(function () {
                             Product Price: ${product.product_price} \n
                             Quantity In Stock: ${product.product_stock} \n
                             Reorder Level: ${product.product_reorder_level} \n
+                            Batch Number: ${product.batch_no} \n
                             Sales Tax: ${product.product_vat_rate} % \n
                             Unit: ${product.product_measuring_units} \n
 							Expiry Status: ${expiryResult}
@@ -501,6 +503,7 @@ $(function () {
 					orderable: false,
 					targets: [
 						1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+						17,
 					],
 				},
 			],
@@ -537,6 +540,7 @@ $(function () {
 				},
 				{ data: "product_measuring_units" },
 				{ data: "product_reorder_level" },
+				{ data: "batch_no" },
 				{ data: "product_vat_rate" },
 				{ data: "product_discount_rate" },
 				{

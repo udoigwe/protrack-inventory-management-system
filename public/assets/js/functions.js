@@ -591,6 +591,7 @@ function showExpiredProducts() {
 									<td>${product.product_name}</td>
 									<td>${product.product_category_name}</td>
 									<td>${product.product_brand_name}</td>
+									<td>${product.batch_no}</td>
 									<td>${formatCurrency(product.product_cost_price)}</td>
 									<td>${formatCurrency(product.product_price)}</td>
 									<td>${product.product_stock}</td>

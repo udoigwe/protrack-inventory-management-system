@@ -874,6 +874,7 @@ module.exports = {
 			product_stock,
 			product_measuring_units,
 			product_reorder_level,
+			batch_no,
 		} = req.body;
 
 		const store_id =
@@ -903,7 +904,8 @@ module.exports = {
 			!product_price ||
 			!product_stock ||
 			!product_measuring_units ||
-			!product_reorder_level
+			!product_reorder_level ||
+			!batch_no
 		) {
 			res.json({
 				error: true,
@@ -972,8 +974,8 @@ module.exports = {
 				const rows = await util
 					.promisify(connection.query)
 					.bind(connection)(
-					"SELECT * FROM products WHERE product_slug = ? AND store_id = ? LIMIT 1",
-					[productSlug, store_id]
+					"SELECT * FROM products WHERE product_slug = ? AND store_id = ? AND batch_no = ? LIMIT 1",
+					[productSlug, store_id, batch_no]
 				);
 
 				if (rows.length > 0) {
@@ -986,7 +988,7 @@ module.exports = {
 						: null;
 
 				await util.promisify(connection.query).bind(connection)(
-					"INSERT INTO products (store_id, product_category_id,product_brand_id, product_name, product_slug, product_cost_price, product_price, product_stock, product_measuring_units, product_reorder_level, product_created_at, product_expiry_date, product_expiry_discount_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					"INSERT INTO products (store_id, product_category_id,product_brand_id, product_name, product_slug, product_cost_price, product_price, product_stock, product_measuring_units, product_reorder_level, product_created_at, product_expiry_date, product_expiry_discount_rate, batch_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 					[
 						store_id,
 						product_category_id,
@@ -1001,6 +1003,7 @@ module.exports = {
 						now,
 						productExpiryDate,
 						product_expiry_discount_rate,
+						batch_no,
 					]
 				);
 
@@ -1172,6 +1175,7 @@ module.exports = {
 			"product_measuring_units",
 			"product_created_at",
 			"product_status",
+			"batch_no",
 		];
 		var draw = parseInt(req.query.draw);
 		var start = parseInt(req.query.start);
@@ -1301,6 +1305,7 @@ module.exports = {
 			product_vat_rate,
 			product_discount_rate,
 			product_status,
+			batch_no,
 		} = req.body;
 
 		const store_id =
@@ -1333,7 +1338,8 @@ module.exports = {
 			!product_reorder_level ||
 			!product_status ||
 			!product_vat_rate ||
-			!product_discount_rate
+			!product_discount_rate ||
+			!batch_no
 		) {
 			res.json({
 				error: true,
@@ -1401,8 +1407,8 @@ module.exports = {
 				const rows1 = await util
 					.promisify(connection.query)
 					.bind(connection)(
-					"SELECT * FROM products WHERE product_slug = ? AND store_id = ? AND product_id != ? LIMIT 1",
-					[productSlug, store_id, productID]
+					"SELECT * FROM products WHERE product_slug = ? AND store_id = ? AND batch_no = ? AND product_id != ? LIMIT 1",
+					[productSlug, store_id, batch_no, productID]
 				);
 
 				if (rows.length == 0) {
@@ -1446,6 +1452,7 @@ module.exports = {
 					previous_product_expiry_date: product.product_expiry_date,
 					previous_product_expiry_discount_rate:
 						product.product_expiry_discount_rate,
+					previous_batch_no: product.batch_no,
 					store_id,
 					product_category_id,
 					product_brand_id,
@@ -1460,6 +1467,7 @@ module.exports = {
 					product_status,
 					productExpiryDate,
 					product_expiry_discount_rate,
+					batch_no,
 				};
 
 				let updateQuery = `
@@ -1480,7 +1488,8 @@ module.exports = {
                             product_status = ?,
                             product_expiry_date = ?,
                             product_expiry_discount_rate = ?,
-							price_reduced = ?
+							price_reduced = ?,
+							batch_no = ?
                         WHERE product_id = ?`;
 
 				let updateQueryParams = [
@@ -1500,6 +1509,7 @@ module.exports = {
 					productExpiryDate,
 					product_expiry_discount_rate,
 					priceReduced,
+					batch_no,
 					productID,
 				];
 

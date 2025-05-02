@@ -204,7 +204,7 @@ $(function () {
 
 							for (var i = 0; i < products.length; i++) {
 								html += `
-                                    <option value="${products[i].product_id}">${products[i].product_name}</option>
+                                    <option value="${products[i].product_id}">${products[i].product_name} (${products[i].batch_no})</option>
                                 `;
 							}
 
@@ -305,7 +305,7 @@ $(function () {
 
 							for (var i = 0; i < products.length; i++) {
 								html += `
-                                    <option value="${products[i].product_id}">${products[i].product_name}</option>
+                                    <option value="${products[i].product_id}">${products[i].product_name} (${products[i].batch_no})</option>
                                 `;
 							}
 
@@ -706,7 +706,7 @@ $(function () {
 
 					for (var i = 0; i < products.length; i++) {
 						html += `
-                            <option value="${products[i].product_id}">${products[i].product_name}</option>
+                            <option value="${products[i].product_id}">${products[i].product_name} (${products[i].batch_no})</option>
                         `;
 					}
 
@@ -748,7 +748,7 @@ $(function () {
 
 						for (var i = 0; i < products.length; i++) {
 							html += `
-                                <option value="${products[i].product_id}">${products[i].product_name}</option>
+                                <option value="${products[i].product_id}">${products[i].product_name} (${products[i].batch_no})</option>
                             `;
 						}
 
@@ -969,7 +969,7 @@ $(function () {
 			if (storeID) {
 				$.ajax({
 					type: "GET",
-					url: `${API_URL_ROOT}/products?store_id=${storeID}`,
+					url: `${API_URL_ROOT}/products?store_id=${storeID}&expiry_status=Not_Expired`,
 					dataType: "json",
 					headers: { "x-access-token": token },
 					success: function (response) {
@@ -978,7 +978,7 @@ $(function () {
 
 							for (var i = 0; i < products.length; i++) {
 								productOptionsHTML += `
-                                    <option value="${products[i].product_id}">${products[i].product_name}</option>
+                                    <option value="${products[i].product_id}">${products[i].product_name} (${products[i].batch_no})</option>
                                 `;
 							}
 

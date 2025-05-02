@@ -87,7 +87,7 @@ $(function () {
 					error: function (req, status, err) {
 						showSimpleMessage(
 							"Attention",
-							"ERROR - " + req.status + " : " + req.statusText,
+							"ERROR - " + req.status + " : " + req.responseText,
 							"error"
 						);
 						unblockUI();
