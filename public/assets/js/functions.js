@@ -646,3 +646,34 @@ function showExpiredProducts() {
 		}
 	}, 120000);
 }
+
+function inactivityTimer() {
+	// Check if user is logged in (token exists)
+	const token = sessionStorage.getItem("token");
+	if (!token) return; // Do nothing if not logged in
+
+	let logoutTimer;
+
+	function logout() {
+		//clear all stored sessions
+		sessionStorage.clear();
+		//redirect to login screeen
+		window.location = "/login";
+		showSimpleMessage(
+			"Attention",
+			"You have been logged out due to inactivity",
+			"success"
+		);
+	}
+
+	function resetTimer() {
+		clearTimeout(logoutTimer);
+		logoutTimer = setTimeout(logout, 1 * 60 * 1000); // 1 minute
+	}
+
+	["mousemove", "keydown", "click", "scroll"].forEach((event) => {
+		window.addEventListener(event, resetTimer);
+	});
+
+	resetTimer();
+}
