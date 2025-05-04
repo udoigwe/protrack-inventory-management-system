@@ -1,9 +1,9 @@
 module.exports = {
 	home: async (req, res) => {
-		res.render("index", { title: "IStock - Home" });
+		res.render("index", { title: "Protrack - Home" });
 	},
 	login: async (req, res) => {
-		res.render("login", { title: "IStock - Sign In" });
+		res.render("login", { title: "Protrack - Sign In" });
 	},
 
 	/* SUPER ADMIN */

@@ -1742,6 +1742,61 @@ module.exports = {
 					`
 				);
 
+				//get top selling products
+				let rows28 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`
+						SELECT 
+							p.product_id,
+							p.product_name,
+							p.product_stock,
+							SUM(s.invoice_product_qty) AS total_sold,
+							TIMESTAMPDIFF(HOUR, FROM_UNIXTIME(MIN(s.invoice_product_timestamp)), FROM_UNIXTIME(MAX(s.invoice_product_timestamp))) AS hours_on_sale,
+							-- DATEDIFF(FROM_UNIXTIME(MAX(s.invoice_product_timestamp)), FROM_UNIXTIME(MIN(s.invoice_product_timestamp))) AS days_on_sale,
+							COALESCE(
+								ROUND(SUM(s.invoice_product_qty) / NULLIF(TIMESTAMPDIFF(HOUR, FROM_UNIXTIME(MIN(s.invoice_product_timestamp)), FROM_UNIXTIME(MAX(s.invoice_product_timestamp))), 0), 2),
+								0
+							) AS avg_sales_per_day,
+							COALESCE(
+								ROUND(
+									100 * p.product_stock / NULLIF(p.product_stock + SUM(s.invoice_product_qty), 0),
+								2),
+								0
+							) AS remaining_stock_percent
+						FROM 
+							products p
+						JOIN 
+							invoice_items s ON p.product_id = s.invoice_product_id
+						GROUP BY 
+							p.product_id, p.product_name, p.product_stock
+						ORDER BY 
+							avg_sales_per_day DESC;
+					`
+				);
+
+				//financial loss on products
+				let rows29 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`
+						SELECT 
+							product_id,
+							product_name,
+							product_stock,
+							product_price,
+							(product_stock * product_price) AS financial_loss
+						FROM 
+							products
+						WHERE 
+							product_expiry_date IS NOT NULL
+						AND 
+							product_expiry_date <= NOW()
+						ORDER BY 
+							financial_loss DESC
+					`
+				);
+
 				//generate monthly revenue chart
 				for (var i = 0; i < months.length; i++) {
 					const month = months[i];
@@ -1853,6 +1908,8 @@ module.exports = {
 					chart_data: chartData,
 					expired_products: rows26,
 					discounted_products: rows27,
+					top_selling_products: rows28,
+					financial_loss_on_products: rows29,
 				};
 
 				res.json({
@@ -2056,6 +2113,90 @@ module.exports = {
 					[myData.user_store_id]
 				);
 
+				//get discounted products approaching expiry
+				let rows27 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`SELECT 
+						a.*,
+						b.store_name, 
+						c.product_category_name, 
+						d.product_brand_name,
+						CASE 
+							WHEN a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE 
+							THEN a.product_price - (a.product_price * a.product_expiry_discount_rate / 100)
+							ELSE a.product_price
+						END AS current_price
+					FROM products a
+					LEFT JOIN stores b ON a.store_id = b.store_id
+					LEFT JOIN product_categories c ON a.product_category_id = c.product_category_id
+					LEFT JOIN product_brands d ON a.product_brand_id = d.product_brand_id
+					WHERE a.product_expiry_date BETWEEN NOW() AND NOW() + INTERVAL 2 MINUTE  -- Filter applied here
+					ORDER BY a.product_expiry_date DESC;
+					`
+				);
+
+				//get top selling products
+				let rows28 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`
+						SELECT 
+							p.product_id,
+							p.product_name,
+							p.product_stock,
+							SUM(s.invoice_product_qty) AS total_sold,
+							TIMESTAMPDIFF(HOUR, FROM_UNIXTIME(MIN(s.invoice_product_timestamp)), FROM_UNIXTIME(MAX(s.invoice_product_timestamp))) AS hours_on_sale,
+							-- DATEDIFF(FROM_UNIXTIME(MAX(s.invoice_product_timestamp)), FROM_UNIXTIME(MIN(s.invoice_product_timestamp))) AS days_on_sale,
+							COALESCE(
+								ROUND(SUM(s.invoice_product_qty) / NULLIF(TIMESTAMPDIFF(HOUR, FROM_UNIXTIME(MIN(s.invoice_product_timestamp)), FROM_UNIXTIME(MAX(s.invoice_product_timestamp))), 0), 2),
+								0
+							) AS avg_sales_per_day,
+							COALESCE(
+								ROUND(
+									100 * p.product_stock / NULLIF(p.product_stock + SUM(s.invoice_product_qty), 0),
+								2),
+								0
+							) AS remaining_stock_percent
+						FROM 
+							products p
+						JOIN 
+							invoice_items s ON p.product_id = s.invoice_product_id
+						WHERE 
+							p.store_id = ?
+						GROUP BY 
+							p.product_id, p.product_name, p.product_stock
+						ORDER BY 
+							avg_sales_per_day DESC;
+					`,
+					[myData.user_store_id]
+				);
+
+				//financial loss on products
+				let rows29 = await util
+					.promisify(connection.query)
+					.bind(connection)(
+					`
+						SELECT 
+							product_id,
+							product_name,
+							product_stock,
+							product_price,
+							(product_stock * product_price) AS financial_loss
+						FROM 
+							products
+						WHERE 
+							product_expiry_date IS NOT NULL
+						AND
+							store_id = ?
+						AND 
+							product_expiry_date <= NOW()
+						ORDER BY 
+							financial_loss DESC
+					`,
+					[myData.user_store_id]
+				);
+
 				//generate monthly revenue chart
 				for (var i = 0; i < months.length; i++) {
 					const month = months[i];
@@ -2156,6 +2297,9 @@ module.exports = {
 					chart_data: chartData,
 					expired_products: rows21,
 					discounted_products: rows24,
+					discounted_products: rows27,
+					top_selling_products: rows28,
+					financial_loss_on_products: rows29,
 				};
 
 				res.json({
