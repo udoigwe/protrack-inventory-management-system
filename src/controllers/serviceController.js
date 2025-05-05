@@ -18,7 +18,7 @@ module.exports = {
 				.bind(connection)(
 				`
                 SELECT * FROM products 
-                WHERE TIMESTAMPDIFF(MINUTE, NOW(), product_expiry_date) = 2
+                WHERE TIMESTAMPDIFF(MINUTE, NOW(), product_expiry_date) = 5
                 AND price_reduced = false
                 AND product_stock != 0
             `,
