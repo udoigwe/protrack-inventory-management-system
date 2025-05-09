@@ -1368,6 +1368,10 @@ module.exports = {
 		const expenditureArray = [];
 		const balanceArray = [];
 		const salesArray = [];
+		const financialLossDates = [];
+		const financialLosses = [];
+		const startDate = moment().startOf("month");
+		const daysInMonth = startDate.daysInMonth();
 
 		let dashboard;
 
@@ -1833,6 +1837,33 @@ module.exports = {
 					balanceArray.push(balance || 0);
 				}
 
+				//get daily total financial loss from expired products
+				for (let i = 0; i < daysInMonth; i++) {
+					const formatedDate = startDate
+						.clone()
+						.add(i, "days")
+						.format("YYYY-MM-DD");
+
+					let financialLossQuery = await util
+						.promisify(connection.query)
+						.bind(connection)(
+						`SELECT 
+								ROUND(COALESCE(SUM(product_stock * product_price), 0), 2) AS total_loss
+							FROM 
+								products
+							WHERE
+								product_expiry_date < NOW()
+							AND
+								product_expiry_date IS NOT NULL
+    						AND 
+								DATE(product_expiry_date) = '${formatedDate}'`
+					);
+					financialLosses.push(financialLossQuery[0].total_loss);
+					financialLossDates.push(
+						startDate.clone().add(i, "days").format("MMMM Do")
+					);
+				}
+
 				//generate monthly revenue chart
 				const chartData = {
 					labels: monthLabelsArray,
@@ -1840,6 +1871,14 @@ module.exports = {
 						incomeArray,
 						expenditureArray,
 						balanceArray,
+					},
+				};
+
+				//generate daily losses per month
+				const dailyLossChartData = {
+					labels: financialLossDates,
+					datasets: {
+						financialLosses,
 					},
 				};
 
@@ -1906,6 +1945,7 @@ module.exports = {
 					reorder_level_products: rows24,
 					recent_sales: rows25,
 					chart_data: chartData,
+					dailyLossChartData,
 					expired_products: rows26,
 					discounted_products: rows27,
 					top_selling_products: rows28,
@@ -2233,6 +2273,35 @@ module.exports = {
 					balanceArray.push(balance || 0);
 				}
 
+				//get daily total financial loss from expired products
+				for (let i = 0; i < daysInMonth; i++) {
+					const formatedDate = startDate
+						.clone()
+						.add(i, "days")
+						.format("YYYY-MM-DD");
+
+					let financialLossQuery = await util
+						.promisify(connection.query)
+						.bind(connection)(
+						`SELECT 
+								ROUND(COALESCE(SUM(product_stock * product_price), 0), 2) AS total_loss
+							FROM 
+								products
+							WHERE
+								store_id = ${myData.user_store_id}
+							AND
+								product_expiry_date < NOW()
+							AND
+								product_expiry_date IS NOT NULL
+    						AND 
+								DATE(product_expiry_date) = '${formatedDate}'`
+					);
+					financialLosses.push(financialLossQuery[0].total_loss);
+					financialLossDates.push(
+						startDate.clone().add(i, "days").format("MMMM Do")
+					);
+				}
+
 				//generate monthly revenue chart
 				const chartData = {
 					labels: monthLabelsArray,
@@ -2240,6 +2309,14 @@ module.exports = {
 						incomeArray,
 						expenditureArray,
 						balanceArray,
+					},
+				};
+
+				//generate daily losses per month
+				const dailyLossChartData = {
+					labels: financialLossDates,
+					datasets: {
+						financialLosses,
 					},
 				};
 
@@ -2295,6 +2372,7 @@ module.exports = {
 					reorder_level_products: rows19,
 					recent_sales: rows20,
 					chart_data: chartData,
+					dailyLossChartData,
 					expired_products: rows21,
 					discounted_products: rows24,
 					discounted_products: rows27,
