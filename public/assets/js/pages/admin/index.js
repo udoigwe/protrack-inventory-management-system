@@ -20,10 +20,12 @@ $(function () {
 		});
 	});
 
-	function dashboard() {
+	function dashboard(selectedMonth = "") {
 		$.ajax({
 			type: "GET",
-			url: `${API_URL_ROOT}/dashboard`,
+			url: selectedMonth
+				? `${API_URL_ROOT}/dashboard?month=${selectedMonth}`
+				: `${API_URL_ROOT}/dashboard`,
 			dataType: "json",
 			headers: { "x-access-token": token },
 			success: function (response) {
@@ -1534,5 +1536,46 @@ $(function () {
 		);
 
 		chart2.render();
+
+		$("body").on("change", "#monthSelectToolbar", function () {
+			var selectedMonth = $(this).val();
+
+			$.ajax({
+				type: "GET",
+				url: selectedMonth
+					? `${API_URL_ROOT}/dashboard?month=${selectedMonth}`
+					: `${API_URL_ROOT}/dashboard`,
+				dataType: "json",
+				headers: { "x-access-token": token },
+				success: function (response) {
+					if (response.error == false) {
+						var dashboard = response.dashboard.dailyLossChartData;
+
+						const newseries = [
+							{
+								name: "Financial Loss",
+								data: dashboard.datasets.financialLosses,
+							},
+						];
+
+						chart2.updateSeries(newseries);
+					} else {
+						showSimpleMessage(
+							"Attention",
+							response.message,
+							"error"
+						);
+					}
+				},
+				error: function (req, err, status) {
+					showSimpleMessage(
+						"Attention",
+						"ERROR - " + req.status + " : " + req.statusText,
+						"error"
+					);
+				},
+			});
+			dashboard(selectedMonth);
+		});
 	}
 });

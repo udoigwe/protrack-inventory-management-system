@@ -1347,6 +1347,7 @@ module.exports = {
 	},
 	dashboard: async (req, res) => {
 		const myData = req.userDecodedData;
+		const month = req.query.month;
 		const now = Math.floor(Date.now() / 1000);
 		const year = moment().format("YYYY");
 		const months = [
@@ -1370,7 +1371,9 @@ module.exports = {
 		const salesArray = [];
 		const financialLossDates = [];
 		const financialLosses = [];
-		const startDate = moment().startOf("month");
+		const startDate = month
+			? moment().month(Number(month)).startOf("month")
+			: moment().startOf("month");
 		const daysInMonth = startDate.daysInMonth();
 
 		let dashboard;
